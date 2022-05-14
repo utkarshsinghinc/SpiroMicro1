@@ -23,8 +23,11 @@
     "android": {
       "adaptiveIcon": {
         "foregroundImage": "./assets/adaptive-icon.png",
-        "backgroundColor": "#FFFFFF"
-      }
+        "backgroundColor": "#FFFFFF",
+        "package": "com.iit.spiromicro",
+        "versionCode": 1
+      },
+      "package": "com.utkarshsinghinc.SpiroMicro"
     },
     "web": {
       "favicon": "./assets/favicon.png"
