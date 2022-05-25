@@ -1,6 +1,6 @@
 // Formik x React Native example
 import React from 'react';
-import { Text, Button, TextInput, View, StyleSheet, ScrollView } from 'react-native';
+import { Text, Button, TextInput, View, StyleSheet, ScrollView, SafeAreaView } from 'react-native';
 import { Formik } from 'formik';
 import { Picker } from '@react-native-picker/picker';
 //import NumberPlease from 'react-native-number-please';
@@ -8,6 +8,7 @@ import { Picker } from '@react-native-picker/picker';
 //import Testing from './Testing';
 //import player from './Wave';
 import Header from './Header';
+
 
 //const PatientAge = [{ id: "age", min: 0, max: 120 }];
 
@@ -53,70 +54,87 @@ export const PatientInfo = ({ navigation }) => (
     //     }
 
     < Formik
-        initialValues={{ fname: '', sname: "", pnumber: "", password: "", age: '', gender: '', Height: '', Weight: '', Smoking: '', Chest: "" }}
+        initialValues={{ fname: '', sname: "", uhid: "", pnumber: "", email: "", age: '', gender: '', Height: '', Weight: '', Smoking: '', Chest: "" }}
         onSubmit={values => console.log(values)}
     >
         {({ handleChange, handleBlur, handleSubmit, values }) => (
-            <ScrollView style={styles.V1}>
+            <SafeAreaView style={styles.V1}>
                 <Header />
-                <View style={styles.row}>
-                    <View style={styles.V2Row}>
-                        <Text style={styles.InputLable}>First Name</Text>
-                        <TextInput
-                            style={styles.InputBox}
-                            onChangeText={handleChange('fname')}
-                            onBlur={handleBlur('fname')}
-                            value={values.fname}
-                            placeholder=" Enter your Name"
 
-                        />
-                    </View>
-                    <View style={styles.V2Row}>
-                        <Text style={styles.InputLable}>Surname</Text>
-                        <TextInput
-                            style={styles.InputBox}
-                            onChangeText={handleChange('sname')}
-                            onBlur={handleBlur('sname')}
-                            value={values.sname}
-                            placeholder=" Enter your Surname"
 
-                        />
-                    </View>
+
+                <View style={styles.V2}>
+                    <Text style={styles.InputLable}>First Name</Text>
+                    <TextInput
+                        style={styles.InputBox}
+                        onChangeText={handleChange('fname')}
+                        onBlur={handleBlur('fname')}
+                        value={values.fname}
+                        placeholder=" Enter patient's Name"
+
+                    />
                 </View>
-                <View style={styles.row}>
-                    <View style={styles.V2Row}>
-                        <Text style={styles.InputLable}>Phone Number</Text>
-                        <TextInput
-                            style={styles.InputBox}
-                            onChangeText={handleChange('pnumber')}
-                            onBlur={handleBlur('pnumber')}
-                            value={values.pnumber}
-                            placeholder=" Enter your 10-digit Phone Number"
-                        />
-                    </View>
-                    <View style={styles.V2Row}>
-                        <Text style={styles.InputLable}>Password</Text>
-                        <TextInput
-                            style={styles.InputBox}
-                            onChangeText={handleChange('password')}
-                            onBlur={handleBlur('password')}
-                            value={values.password}
-                            placeholder=" Enter your password"
+                <View style={styles.V2}>
+                    <Text style={styles.InputLable}>Surname</Text>
+                    <TextInput
+                        style={styles.InputBox}
+                        onChangeText={handleChange('sname')}
+                        onBlur={handleBlur('sname')}
+                        value={values.sname}
+                        placeholder=" Enter patient's Surname"
 
-                        />
-                    </View>
+                    />
+                </View>
+                <View style={styles.V2}>
+                    <Text style={styles.InputLable}>UHID</Text>
+                    <TextInput
+                        style={styles.InputBox}
+                        onChangeText={handleChange('uhid')}
+                        onBlur={handleBlur('uhid')}
+                        value={values.password}
+                        placeholder=" Enter patient's UHID"
+
+                    />
+                </View>
+
+
+                <View style={styles.V2}>
+                    <Text style={styles.InputLable}>Phone Number</Text>
+                    <TextInput
+                        style={styles.InputBox}
+                        onChangeText={handleChange('pnumber')}
+                        onBlur={handleBlur('pnumber')}
+                        value={values.pnumber}
+                        placeholder=" Enter patient's 10-digit Phone Number"
+                        keyboardType="numeric"
+                        textContentType="telephoneNumber"
+                    />
+                </View>
+                <View style={styles.V2}>
+                    <Text style={styles.InputLable}>Email</Text>
+                    <TextInput
+
+                        style={styles.InputBox}
+                        onChangeText={handleChange('email')}
+                        onBlur={handleBlur('email')}
+                        value={values.email}
+                        placeholder=" Enter patient's email"
+                        textContentType="emailAddress"
+                    />
                 </View>
 
                 <View style={styles.V2}>
-                    <Text style={styles.InputLable}>Age</Text>
+                    <Text style={styles.InputLable}>Age (Year)</Text>
                     <TextInput
                         style={styles.InputBox}
                         onChangeText={handleChange('age')}
                         onBlur={handleBlur('age')}
                         value={values.age}
-                        placeholder=" Enter your age"
+                        placeholder=" Enter patient's age"
+                        keyboardType="numeric"
                     />
                 </View>
+
                 <View style={styles.V2}>
                     <Text style={styles.InputLable}>Gender</Text>
                     <Picker
@@ -139,7 +157,8 @@ export const PatientInfo = ({ navigation }) => (
                         onChangeText={handleChange("Height")}
                         onBlur={handleBlur('Height')}
                         value={values.Height}
-                        placeholder=" Enter your height (cm)"
+                        placeholder=" Enter patient's height (cm)"
+                        keyboardType="numeric"
                     />
                 </View>
 
@@ -150,7 +169,8 @@ export const PatientInfo = ({ navigation }) => (
                         onChangeText={handleChange("Weight")}
                         onBlur={handleBlur('Weight')}
                         value={values.Weight}
-                        placeholder=" Enter your Body Weight (Kg)"
+                        placeholder=" Enter patient's Body Weight (Kg)"
+                        keyboardType="numeric"
                     />
                 </View>
                 <View style={styles.V2}>
@@ -188,16 +208,13 @@ export const PatientInfo = ({ navigation }) => (
 
 
                 <View style={styles.submitBtn}>
-                    <Button onPress={() => navigation.navigate("Testing")} title="Register" />
-                </View>
-
-                <View style={styles.row2}>
-                    <Text >Already Register?</Text>
-                    <Text style={styles.text} onPress={() => navigation.navigate("Login")}>  Login</Text>
+                    <Button onPress={() => navigation.navigate("PostRegistration")} title="Register Patient" />
                 </View>
 
 
-            </ScrollView>
+
+
+            </SafeAreaView>
         )}
     </Formik >
 );
@@ -246,7 +263,7 @@ const styles = StyleSheet.create({
     },
     V2Row: {
         margin: 20,
-        width: "40%"
+        maxWidth: 200
     },
     text: {
         color: "blue"

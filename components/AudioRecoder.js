@@ -1,8 +1,15 @@
 import { StatusBar } from 'expo-status-bar';
 import React from 'react';
-import { Button, StyleSheet, Text, View } from 'react-native';
+import { Button, StyleSheet, Text, View, SafeAreaView } from 'react-native';
 import { Audio } from 'expo-av';
 import * as Sharing from 'expo-sharing';
+import StopWatch from './StopWatch';
+import Header from './Header';
+import WaveForm from "react-native-audiowaveform"
+
+
+
+
 
 const AudioRecoder = () => {
     const [recording, setRecording] = React.useState();
@@ -42,6 +49,7 @@ const AudioRecoder = () => {
             sound: sound,
             duration: getDurationFormatted(status.durationMillis),
             file: recording.getURI()
+
         });
 
         setRecordings(updatedRecordings);
@@ -61,6 +69,7 @@ const AudioRecoder = () => {
                 <View key={index} style={styles.row}>
                     <Text style={styles.fill}>Recording {index + 1} - {recordingLine.duration}</Text>
                     <Button style={styles.button} onPress={() => recordingLine.sound.replayAsync()} title="Play"></Button>
+
                     <Button style={styles.button} onPress={() => Sharing.shareAsync(recordingLine.file)} title="Share"></Button>
                 </View>
             );
@@ -68,14 +77,19 @@ const AudioRecoder = () => {
     }
 
     return (
-        <View style={styles.container}>
-            <Text>{message}</Text>
-            <Button
-                title={recording ? 'Stop Recording' : 'Start Recording'}
-                onPress={recording ? stopRecording : startRecording} />
-            {getRecordingLines()}
-            <StatusBar style="auto" />
-        </View>
+        <SafeAreaView>
+            <Header />
+            <View style={styles.container}>
+                <StopWatch startStop={recording ? stopRecording : startRecording} />
+                <Text>{message}</Text>
+                <Button
+                    title={recording ? 'Stop Recording' : 'Start Recording'}
+                    onPress={recording ? stopRecording : startRecording} />
+                {getRecordingLines()}
+                <WaveForm source={{ uri: { file } }} waveFormStyle={{ waveColor: 'red', scrubColor: 'white' }} />
+                <StatusBar style="auto" />
+            </View>
+        </SafeAreaView>
     );
 }
 

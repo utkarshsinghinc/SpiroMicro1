@@ -1,11 +1,12 @@
 import React from "react";
-import { Text, View, Image, StyleSheet } from "react-native"
+import { Text, View, Image, StyleSheet, TouchableOpacity, Touchable } from "react-native"
 
-const Header = () => {
+const Header = ({ navigation }) => {
     return (
-        <View>
+        <TouchableOpacity
+            onPress={() => navigation.navigate("HomePage")}>
             <Image style={styles.logo} source={require("../assets/spiromicro.png")} />
-        </View>
+        </TouchableOpacity >
     )
 }
 

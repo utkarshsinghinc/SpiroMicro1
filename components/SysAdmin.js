@@ -6,13 +6,14 @@ import { Formik } from 'formik';
 //import player from './Wave';
 //const PatientAge = [{ id: "age", min: 0, max: 120 }];
 import Header from './Header';
-
-const Login = ({ navigation }) => (
+import { Picker } from '@react-native-picker/picker';
+import DoctorDashboard from './DoctorDashboard';
+const AdminLogin = ({ navigation }) => (
 
 
 
     < Formik
-        initialValues={{ Username: "", password: "" }}
+        initialValues={{ pnumber: "", password: "", hospital: "" }}
         onSubmit={values => console.log(values)}
     >
         {({ handleChange, handleBlur, handleSubmit, values }) => (
@@ -21,15 +22,16 @@ const Login = ({ navigation }) => (
                 <Header />
                 <View style={styles.V2}>
                     <View style={styles.authView}>
-                        <Text style={styles.authText}>Doctor's Login:</Text>
+                        <Text style={styles.authText}>Admin Login:</Text>
                     </View>
-                    <Text style={styles.InputLable}>Username </Text>
+
+                    <Text style={styles.InputLable}>Email</Text>
                     <TextInput
                         style={styles.InputBox}
-                        onChangeText={handleChange('user')}
-                        onBlur={handleBlur('user')}
+                        onChangeText={handleChange('pnumber')}
+                        onBlur={handleBlur('pnumber')}
                         value={values.pnumber}
-                        placeholder=" Enter your Email ID"
+                        placeholder=" Enter your email"
 
                     />
                 </View>
@@ -44,13 +46,28 @@ const Login = ({ navigation }) => (
 
                     />
                 </View>
+                <View style={styles.V2}>
+                    <Text style={styles.InputLable}>Hospital</Text>
+                    <Picker
+                        style={styles.InputBox}
+                        onValueChange={handleChange("Hospital")}
 
+                    >
+                        <Picker.Item label="AIIMS BHUBNESWAR" Value={values.hospital} />
+                        <Picker.Item label="AIIMS PATNA" value={values.hospital} />
+                        <Picker.Item label="AIIMS NEW DELHI" value={values.hospital} />
+
+
+
+                    </Picker>
+                </View>
 
 
 
                 <View style={styles.submitBtn}>
-                    <Button onPress={() => navigation.navigate("PatientLogin")} title="Login" />
+                    <Button onPress={() => navigation.navigate("AddDoctor")} title="Login" />
                 </View>
+
 
 
             </View>
@@ -125,4 +142,4 @@ const styles = StyleSheet.create({
 
 })
 
-export default Login;
+export default AdminLogin;
