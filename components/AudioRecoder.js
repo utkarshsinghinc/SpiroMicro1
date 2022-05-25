@@ -5,7 +5,7 @@ import { Audio } from 'expo-av';
 import * as Sharing from 'expo-sharing';
 import StopWatch from './StopWatch';
 import Header from './Header';
-import WaveForm from "react-native-audiowaveform"
+
 
 
 
@@ -86,7 +86,7 @@ const AudioRecoder = () => {
                     title={recording ? 'Stop Recording' : 'Start Recording'}
                     onPress={recording ? stopRecording : startRecording} />
                 {getRecordingLines()}
-                <WaveForm source={{ uri: { file } }} waveFormStyle={{ waveColor: 'red', scrubColor: 'white' }} />
+
                 <StatusBar style="auto" />
             </View>
         </SafeAreaView>
