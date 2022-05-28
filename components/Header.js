@@ -1,12 +1,14 @@
 import React from "react";
-import { Text, View, Image, StyleSheet, TouchableOpacity, Touchable } from "react-native"
+import { Text, View, Image, StyleSheet, TouchableOpacity, Touchable, SafeAreaView } from "react-native"
 
 const Header = ({ navigation }) => {
     return (
-        <TouchableOpacity
-            onPress={() => navigation.navigate("HomePage")}>
-            <Image style={styles.logo} source={require("../assets/spiromicro.png")} />
-        </TouchableOpacity >
+        <SafeAreaView style={styles.Safe}>
+            <TouchableOpacity
+                onPress={() => navigation.navigate("HomePage")}>
+                <Image style={styles.logo} source={require("../assets/spiromicro.png")} />
+            </TouchableOpacity >
+        </SafeAreaView>
     )
 }
 
@@ -14,7 +16,13 @@ const styles = StyleSheet.create({
     logo: {
         width: 100,
         height: 50,
-        resizeMode: 'contain'
+        resizeMode: 'contain',
+        margin: 20
+    },
+    Safe: {
+        justifyContent: "center",
+        alignItems: "center",
+        height: 50
     }
 })
 

@@ -1,10 +1,10 @@
 import React from "react";
-import { Text, View, Image, StyleSheet, TouchableOpacity, Touchable, Button } from "react-native"
+import { Text, View, Image, StyleSheet, TouchableOpacity, Touchable, Button, Pressable } from "react-native"
 import Header from "./Header";
 const SuccessDoctorReg = ({ navigation }) => {
     return (
         <View>
-            <Header />
+
             <View style={styles.V2}>
                 <Image style={styles.logo} source={require("../assets/success.gif")} />
             </View>
@@ -14,11 +14,17 @@ const SuccessDoctorReg = ({ navigation }) => {
 
             <View style={styles.v1}>
 
-                <Button onPress={() => navigation.navigate("DoctorRegister")} title="ADD NEW DOCTOR" />
+
+                <Pressable style={styles.Btn} onPress={() => navigation.navigate("DoctorRegister")}  >
+                    <Text style={styles.text}>ADD NEW DOCTOR</Text>
+                </Pressable>
             </View>
             <View style={styles.v1} >
 
-                <Button title="Delete Doctor" />
+
+                <Pressable style={styles.Btn} >
+                    <Text style={styles.text}>Delete Doctor</Text>
+                </Pressable>
             </View>
 
         </View>
@@ -45,6 +51,25 @@ const styles = StyleSheet.create({
     },
     v1: {
         margin: 40
+    },
+    Btn: {
+        widht: 50,
+        height: 50,
+        borderRadius: 10,
+        alignItems: 'center',
+        justifyContent: 'center',
+        paddingVertical: 12,
+        paddingHorizontal: 32,
+        borderRadius: 4,
+        elevation: 3,
+        backgroundColor: 'black',
+    },
+    text: {
+        fontSize: 16,
+        lineHeight: 21,
+        fontWeight: 'bold',
+        letterSpacing: 0.25,
+        color: 'white',
     }
 })
 

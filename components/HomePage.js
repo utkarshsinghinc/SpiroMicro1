@@ -1,26 +1,33 @@
 import React from "react"
-import { Text, View, StyleSheet, Button, SafeAreaView } from "react-native"
+import { Text, View, StyleSheet, Button, SafeAreaView, ImageBackground, Pressable } from "react-native"
 import Header from "./Header"
 
 const HomePage = ({ navigation }) => {
 
     return (
+        <ImageBackground source={require("../assets/back.png")} >
+            <SafeAreaView >
 
-        <SafeAreaView >
-            <Header />
-            <View style={styles.v1}>
-                <View>
-                    <Text style={styles.textView}>Login as:</Text>
-                </View>
-                <View style={styles.btnView}>
+                <View style={styles.v1}>
+                    <View>
+                        <Text style={styles.textView}>Login as:</Text>
+                    </View>
+                    <View style={styles.btnView}>
 
-                    <Button style={styles.Btn} onPress={() => navigation.navigate("AdminLogin")} title="System Admin" />
+                        <Pressable style={styles.Btn} onPress={() => navigation.navigate("AdminLogin")} >
+                            <Text style={styles.text}>System Admin</Text>
+                        </Pressable>
+                    </View>
+                    <View style={styles.btnView} >
+                        <Pressable style={styles.Btn} onPress={() => navigation.navigate("Login")} >
+                            <Text style={styles.text}>Doctor</Text>
+                        </Pressable>
+                    </View>
                 </View>
-                <View style={styles.btnView} >
-                    <Button style={styles.Btn} onPress={() => navigation.navigate("Login")} title="Doctor" />
-                </View>
-            </View>
-        </SafeAreaView>
+
+            </SafeAreaView>
+        </ImageBackground>
+
     )
 
 }
@@ -28,20 +35,34 @@ const HomePage = ({ navigation }) => {
 const styles = StyleSheet.create({
     textView: {
         fontSize: 20,
-        fontFamily: "san-sarif",
-        fontWeight: 10
+        fontWeight: "300"
     },
     btnView: {
-        margin: 20
+        margin: 60,
+        height: 200
     },
     v1: {
-        margin: 40
+        height: 700
     },
     Btn: {
         widht: 50,
         height: 50,
-        borderRadius: 10
-    }
+        borderRadius: 10,
+        alignItems: 'center',
+        justifyContent: 'center',
+        paddingVertical: 12,
+        paddingHorizontal: 32,
+        borderRadius: 4,
+        elevation: 3,
+        backgroundColor: 'black',
+    },
+    text: {
+        fontSize: 16,
+        lineHeight: 21,
+        fontWeight: 'bold',
+        letterSpacing: 0.25,
+        color: 'white',
+    },
 
 
 })

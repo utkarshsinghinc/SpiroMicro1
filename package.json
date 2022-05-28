@@ -22,6 +22,7 @@
     "formik": "^2.2.9",
     "react": "17.0.2",
     "react-countdown-circle-timer": "^3.0.9",
+    "react-devtools": "^4.24.6",
     "react-dom": "17.0.2",
     "react-native": "0.68.2",
     "react-native-audio-recorder-player": "^3.5.0",

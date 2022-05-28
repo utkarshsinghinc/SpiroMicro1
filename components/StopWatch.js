@@ -52,6 +52,7 @@ const StopWatch = ({ startStop }) => {
                             {!isStopwatchStart ? 'START RECORDING' : 'STOP RECORDING'}
                         </Text>
                     </TouchableHighlight>
+
                     <TouchableHighlight
                         onPress={() => {
                             setIsStopwatchStart(false);
@@ -77,8 +78,10 @@ const StopWatch = ({ startStop }) => {
                         // Options for the styling
                         handleFinish={() => {
 
+                            setIsTimerStart(!isTimerStart);
 
                             startStop();
+
                         }}
                         // Can call a function On finish of the time
                         getTime={(time) => {
@@ -141,7 +144,7 @@ const styles = StyleSheet.create({
 
 const options = {
     container: {
-        backgroundColor: '#0384fc',
+        backgroundColor: '#000000',
         padding: 5,
         borderRadius: 5,
         width: 200,

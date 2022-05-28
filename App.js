@@ -1,6 +1,6 @@
 import 'react-native-gesture-handler';
 //import { StatusBar } from 'expo-status-bar';
-import { StyleSheet, Text, View } from 'react-native';
+import { StyleSheet, Text, View, SafeAreaView, ImageBackground } from 'react-native';
 import React from 'react'
 import { NavigationContainer } from '@react-navigation/native';
 import { createStackNavigator } from '@react-navigation/stack';
@@ -13,19 +13,24 @@ import DashBoard from "./components/DashBoard";
 import StopWatch from './components/StopWatch';
 import { DoctorRegister } from './components/DoctorRegister';
 import HomePage from './components/HomePage';
-import AdminLogin from './components/sysAdmin';
+import AdminLogin from './components/SysAdmin';
 import PatientLogin from './components/PatientLogin';
 import AddDoctor from './components/AddDoctor';
 import PatientDashboard from './components/PatientDashboard';
 import PostRegistration from './components/PostRegistration';
 import DoctorDashboard from './components/DoctorDashboard';
 import SuccessDoctorReg from './components/SuccessDoctorReg';
+import Header from './components/Header';
 //import AudioRecoder from './components/AudioRecorder';
 //mport AudioPlay from './components/AudioPlay';
 const Stack = createStackNavigator();
 export default function App() {
   return (
+
     <NavigationContainer>
+
+      <Header />
+
       <Stack.Navigator initialRouteName="HomePage">
         <Stack.Screen name="PatientInfo" component={PatientInfo} options={{ headerShown: false }} />
         <Stack.Screen name="Login" component={Login} options={{ headerShown: false }} />
@@ -45,7 +50,9 @@ export default function App() {
         <Stack.Screen name="DoctorDashboard" component={DoctorDashboard} options={{ headerShown: false }} />
         <Stack.Screen name="SuccessDoctorReg" component={SuccessDoctorReg} options={{ headerShown: false }} />
       </Stack.Navigator>
+
     </NavigationContainer>
+
   );
 }
 

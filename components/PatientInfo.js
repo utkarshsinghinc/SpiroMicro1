@@ -1,6 +1,6 @@
 // Formik x React Native example
 import React from 'react';
-import { Text, Button, TextInput, View, StyleSheet, ScrollView, SafeAreaView } from 'react-native';
+import { Text, Button, TextInput, View, StyleSheet, ScrollView, SafeAreaView, Pressable } from 'react-native';
 import { Formik } from 'formik';
 import { Picker } from '@react-native-picker/picker';
 //import NumberPlease from 'react-native-number-please';
@@ -58,163 +58,168 @@ export const PatientInfo = ({ navigation }) => (
         onSubmit={values => console.log(values)}
     >
         {({ handleChange, handleBlur, handleSubmit, values }) => (
-            <SafeAreaView style={styles.V1}>
-                <Header />
-
-
-
-                <View style={styles.V2}>
-                    <Text style={styles.InputLable}>First Name</Text>
-                    <TextInput
-                        style={styles.InputBox}
-                        onChangeText={handleChange('fname')}
-                        onBlur={handleBlur('fname')}
-                        value={values.fname}
-                        placeholder=" Enter patient's Name"
-
-                    />
-                </View>
-                <View style={styles.V2}>
-                    <Text style={styles.InputLable}>Surname</Text>
-                    <TextInput
-                        style={styles.InputBox}
-                        onChangeText={handleChange('sname')}
-                        onBlur={handleBlur('sname')}
-                        value={values.sname}
-                        placeholder=" Enter patient's Surname"
-
-                    />
-                </View>
-                <View style={styles.V2}>
-                    <Text style={styles.InputLable}>UHID</Text>
-                    <TextInput
-                        style={styles.InputBox}
-                        onChangeText={handleChange('uhid')}
-                        onBlur={handleBlur('uhid')}
-                        value={values.password}
-                        placeholder=" Enter patient's UHID"
-
-                    />
-                </View>
-
-
-                <View style={styles.V2}>
-                    <Text style={styles.InputLable}>Phone Number</Text>
-                    <TextInput
-                        style={styles.InputBox}
-                        onChangeText={handleChange('pnumber')}
-                        onBlur={handleBlur('pnumber')}
-                        value={values.pnumber}
-                        placeholder=" Enter patient's 10-digit Phone Number"
-                        keyboardType="numeric"
-                        textContentType="telephoneNumber"
-                    />
-                </View>
-                <View style={styles.V2}>
-                    <Text style={styles.InputLable}>Email</Text>
-                    <TextInput
-
-                        style={styles.InputBox}
-                        onChangeText={handleChange('email')}
-                        onBlur={handleBlur('email')}
-                        value={values.email}
-                        placeholder=" Enter patient's email"
-                        textContentType="emailAddress"
-                    />
-                </View>
-
-                <View style={styles.V2}>
-                    <Text style={styles.InputLable}>Age (Year)</Text>
-                    <TextInput
-                        style={styles.InputBox}
-                        onChangeText={handleChange('age')}
-                        onBlur={handleBlur('age')}
-                        value={values.age}
-                        placeholder=" Enter patient's age"
-                        keyboardType="numeric"
-                    />
-                </View>
-
-                <View style={styles.V2}>
-                    <Text style={styles.InputLable}>Gender</Text>
-                    <Picker
-                        style={styles.InputBox}
-                        onValueChange={handleChange("gender")}
-
-                    >
-                        <Picker.Item label="Not Selected" Value={values.gender} />
-                        <Picker.Item label="Male" value={values.gender} />
-                        <Picker.Item label="Female" value={values.gender} />
-                        <Picker.Item label="Transgender" value={values.gender} />
-
-
-                    </Picker>
-                </View>
-                <View style={styles.V2}>
-                    <Text style={styles.InputLable}>Height</Text>
-                    <TextInput
-                        style={styles.InputBox}
-                        onChangeText={handleChange("Height")}
-                        onBlur={handleBlur('Height')}
-                        value={values.Height}
-                        placeholder=" Enter patient's height (cm)"
-                        keyboardType="numeric"
-                    />
-                </View>
-
-                <View style={styles.V2}>
-                    <Text style={styles.InputLable}>Body Weight</Text>
-                    <TextInput
-                        style={styles.InputBox}
-                        onChangeText={handleChange("Weight")}
-                        onBlur={handleBlur('Weight')}
-                        value={values.Weight}
-                        placeholder=" Enter patient's Body Weight (Kg)"
-                        keyboardType="numeric"
-                    />
-                </View>
-                <View style={styles.V2}>
-                    <Text style={styles.InputLable}>Smoking Habits</Text>
-                    <Picker
-                        style={styles.InputBox}
-                        onValueChange={handleChange("Smoking")}
-
-                    >
-                        <Picker.Item label="Not Selected" value={values.Smoking} />
-                        <Picker.Item label="Yes/mild smoker(1 or less daily)" value="0" />
-                        <Picker.Item label="Yes/Reguler smoker(2 or more daily)" value="0" />
-                        <Picker.Item label="No" value="1" />
-
-
-                    </Picker>
-                </View>
-
-                <View style={styles.V2}>
-
-                    <Text style={styles.InputLable}>Chest Complication</Text>
-                    <Picker
-                        style={styles.InputBox}
-                        onValueChange={handleChange("Chest")}
-                    >
-                        <Picker.Item label="Not Selected" value={values.Chest} />
-                        <Picker.Item label="Yes" value={values.Chest} />
-                        <Picker.Item label="No" value={values.Chest} />
-
-
-                    </Picker>
-                </View>
+            <ScrollView>
+                <SafeAreaView style={styles.V1}>
 
 
 
 
-                <View style={styles.submitBtn}>
-                    <Button onPress={() => navigation.navigate("PostRegistration")} title="Register Patient" />
-                </View>
+                    <View style={styles.V2}>
+                        <Text style={styles.InputLable}>First Name</Text>
+                        <TextInput
+                            style={styles.InputBox}
+                            onChangeText={handleChange('fname')}
+                            onBlur={handleBlur('fname')}
+                            value={values.fname}
+                            placeholder=" Enter patient's Name"
+
+                        />
+                    </View>
+                    <View style={styles.V2}>
+                        <Text style={styles.InputLable}>Surname</Text>
+                        <TextInput
+                            style={styles.InputBox}
+                            onChangeText={handleChange('sname')}
+                            onBlur={handleBlur('sname')}
+                            value={values.sname}
+                            placeholder=" Enter patient's Surname"
+
+                        />
+                    </View>
+                    <View style={styles.V2}>
+                        <Text style={styles.InputLable}>UHID</Text>
+                        <TextInput
+                            style={styles.InputBox}
+                            onChangeText={handleChange('uhid')}
+                            onBlur={handleBlur('uhid')}
+                            value={values.password}
+                            placeholder=" Enter patient's UHID"
+
+                        />
+                    </View>
+
+
+                    <View style={styles.V2}>
+                        <Text style={styles.InputLable}>Phone Number</Text>
+                        <TextInput
+                            style={styles.InputBox}
+                            onChangeText={handleChange('pnumber')}
+                            onBlur={handleBlur('pnumber')}
+                            value={values.pnumber}
+                            placeholder=" Enter patient's 10-digit Phone Number"
+                            keyboardType="numeric"
+                            textContentType="telephoneNumber"
+                        />
+                    </View>
+                    <View style={styles.V2}>
+                        <Text style={styles.InputLable}>Email</Text>
+                        <TextInput
+
+                            style={styles.InputBox}
+                            onChangeText={handleChange('email')}
+                            onBlur={handleBlur('email')}
+                            value={values.email}
+                            placeholder=" Enter patient's email"
+                            textContentType="emailAddress"
+                        />
+                    </View>
+
+                    <View style={styles.V2}>
+                        <Text style={styles.InputLable}>Age (Year)</Text>
+                        <TextInput
+                            style={styles.InputBox}
+                            onChangeText={handleChange('age')}
+                            onBlur={handleBlur('age')}
+                            value={values.age}
+                            placeholder=" Enter patient's age"
+                            keyboardType="numeric"
+                        />
+                    </View>
+
+                    <View style={styles.V2}>
+                        <Text style={styles.InputLable}>Gender</Text>
+                        <Picker
+                            style={styles.InputBox}
+                            onValueChange={handleChange("gender")}
+
+                        >
+                            <Picker.Item label="Not Selected" Value={values.gender} />
+                            <Picker.Item label="Male" value={values.gender} />
+                            <Picker.Item label="Female" value={values.gender} />
+                            <Picker.Item label="Transgender" value={values.gender} />
+
+
+                        </Picker>
+                    </View>
+                    <View style={styles.V2}>
+                        <Text style={styles.InputLable}>Height</Text>
+                        <TextInput
+                            style={styles.InputBox}
+                            onChangeText={handleChange("Height")}
+                            onBlur={handleBlur('Height')}
+                            value={values.Height}
+                            placeholder=" Enter patient's height (cm)"
+                            keyboardType="numeric"
+                        />
+                    </View>
+
+                    <View style={styles.V2}>
+                        <Text style={styles.InputLable}>Body Weight</Text>
+                        <TextInput
+                            style={styles.InputBox}
+                            onChangeText={handleChange("Weight")}
+                            onBlur={handleBlur('Weight')}
+                            value={values.Weight}
+                            placeholder=" Enter patient's Body Weight (Kg)"
+                            keyboardType="numeric"
+                        />
+                    </View>
+                    <View style={styles.V2}>
+                        <Text style={styles.InputLable}>Smoking Habits</Text>
+                        <Picker
+                            style={styles.InputBox}
+                            onValueChange={handleChange("Smoking")}
+
+                        >
+                            <Picker.Item label="Not Selected" value={values.Smoking} />
+                            <Picker.Item label="Yes/mild smoker(1 or less daily)" value="0" />
+                            <Picker.Item label="Yes/Reguler smoker(2 or more daily)" value="0" />
+                            <Picker.Item label="No" value="1" />
+
+
+                        </Picker>
+                    </View>
+
+                    <View style={styles.V2}>
+
+                        <Text style={styles.InputLable}>Chest Complication</Text>
+                        <Picker
+                            style={styles.InputBox}
+                            onValueChange={handleChange("Chest")}
+                        >
+                            <Picker.Item label="Not Selected" value={values.Chest} />
+                            <Picker.Item label="Yes" value={values.Chest} />
+                            <Picker.Item label="No" value={values.Chest} />
+
+
+                        </Picker>
+                    </View>
 
 
 
 
-            </SafeAreaView>
+                    <View style={styles.submitBtn}>
+
+                        <Pressable style={styles.Btn} onPress={() => navigation.navigate("PostRegistration")} >
+                            <Text style={styles.text}>Register Patient</Text>
+                        </Pressable>
+                    </View>
+
+
+
+
+                </SafeAreaView>
+            </ScrollView>
         )}
     </Formik >
 );
@@ -267,7 +272,26 @@ const styles = StyleSheet.create({
     },
     text: {
         color: "blue"
-    }
+    },
+    Btn: {
+        widht: 50,
+        height: 50,
+        borderRadius: 10,
+        alignItems: 'center',
+        justifyContent: 'center',
+        paddingVertical: 12,
+        paddingHorizontal: 32,
+        borderRadius: 4,
+        elevation: 3,
+        backgroundColor: 'black',
+    },
+    text: {
+        fontSize: 16,
+        lineHeight: 21,
+        fontWeight: 'bold',
+        letterSpacing: 0.25,
+        color: 'white',
+    },
 
 })
 

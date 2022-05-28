@@ -1,5 +1,5 @@
 import React from 'react';
-import { Text, Button, TextInput, View, StyleSheet, TouchableOpacity, Image, SafeAreaView } from 'react-native';
+import { Text, Button, TextInput, View, StyleSheet, TouchableOpacity, Image, SafeAreaView, ScrollView, Pressable } from 'react-native';
 import { Formik } from 'formik';
 //import { Picker } from '@react-native-picker/picker';
 //import NumberPlease from 'react-native-number-please';
@@ -9,50 +9,58 @@ import Header from './Header';
 import PatientDashboard from './PatientDashboard';
 
 const PatientLogin = ({ navigation }) => (
+    <ScrollView>
+        <SafeAreaView>
 
-    <SafeAreaView>
+            < Formik
+                initialValues={{ pnumber: "", password: "" }}
+                onSubmit={values => console.log(values)}
+            >
+                {({ handleChange, handleBlur, handleSubmit, values }) => (
 
-        < Formik
-            initialValues={{ pnumber: "", password: "" }}
-            onSubmit={values => console.log(values)}
-        >
-            {({ handleChange, handleBlur, handleSubmit, values }) => (
+                    <View style={styles.V1}>
 
-                <View style={styles.V1}>
-                    <Header />
-                    <View style={styles.row2}>
-                        <Text >Before Registration Search a Patient With UHID</Text>
-                        {/* <Text style={styles.text} onPress={() => navigation.navigate("PatientInfo")}>  Register Patient</Text> */}
+                        <View style={styles.row2}>
+                            <Text >Before Registration Search a Patient With UHID</Text>
+                            {/* <Text style={styles.text} onPress={() => navigation.navigate("PatientInfo")}>  Register Patient</Text> */}
+                        </View>
+
+                        <View style={styles.V2}>
+                            <Text style={styles.InputLable}>UHID</Text>
+                            <TextInput
+                                style={styles.InputBox}
+                                onChangeText={handleChange('uhid')}
+                                onBlur={handleBlur('uhid')}
+                                value={values.uhid}
+                                placeholder=" Enter patient's UHID"
+
+                            />
+                        </View>
+
+
+
+
+                        <View style={styles.submitBtn}>
+
+                            <Pressable style={styles.Btn} onPress={() => navigation.navigate("DashBoard")} >
+                                <Text style={styles.text}>Search</Text>
+                            </Pressable>
+
+                        </View>
+                        <View style={styles.submitBtn}>
+
+                            <Pressable style={styles.Btn} onPress={() => navigation.navigate("PatientInfo")} >
+                                <Text style={styles.text}>Register New Patient</Text>
+                            </Pressable>
+                        </View>
+
                     </View>
+                )}
+            </Formik >
 
-                    <View style={styles.V2}>
-                        <Text style={styles.InputLable}>UHID</Text>
-                        <TextInput
-                            style={styles.InputBox}
-                            onChangeText={handleChange('uhid')}
-                            onBlur={handleBlur('uhid')}
-                            value={values.uhid}
-                            placeholder=" Enter patient's UHID"
-
-                        />
-                    </View>
-
-
-
-
-                    <View style={styles.submitBtn}>
-                        <Button onPress={() => navigation.navigate("DashBoard")} title="Search" />
-                    </View>
-                    <View style={styles.submitBtn}>
-                        <Button style={styles.text} onPress={() => navigation.navigate("PatientInfo")} title="Register New Patient" />
-                    </View>
-
-                </View>
-            )}
-        </Formik >
-
-        <PatientDashboard />
-    </SafeAreaView>
+            <PatientDashboard />
+        </SafeAreaView>
+    </ScrollView>
 
 );
 
@@ -117,6 +125,25 @@ const styles = StyleSheet.create({
 
         marginBottom: 20
 
+    },
+    Btn: {
+        widht: 50,
+        height: 50,
+        borderRadius: 10,
+        alignItems: 'center',
+        justifyContent: 'center',
+        paddingVertical: 12,
+        paddingHorizontal: 32,
+        borderRadius: 4,
+        elevation: 3,
+        backgroundColor: 'black',
+    },
+    text: {
+        fontSize: 16,
+        lineHeight: 21,
+        fontWeight: 'bold',
+        letterSpacing: 0.25,
+        color: 'white',
     }
 
 

@@ -1,6 +1,6 @@
 // Formik x React Native example
 import React from 'react';
-import { Text, Button, TextInput, View, StyleSheet, ScrollView, SafeAreaView } from 'react-native';
+import { Text, Button, TextInput, View, StyleSheet, ScrollView, SafeAreaView, ImageBackground, Pressable } from 'react-native';
 import { Formik } from 'formik';
 import { Picker } from '@react-native-picker/picker';
 //import NumberPlease from 'react-native-number-please';
@@ -57,81 +57,79 @@ export const DoctorRegister = ({ navigation }) => (
         onSubmit={values => console.log(values)}
     >
         {({ handleChange, handleBlur, handleSubmit, values }) => (
-            <SafeAreaView style={styles.V1}>
-                <Header />
-
-                <View style={styles.V2}>
-
-                    <View style={styles.authView}>
-                        <Text style={styles.authText}>Doctor's Registration:</Text>
-                    </View>
-                    <Text style={styles.InputLable}>Doctor's First Name</Text>
-                    <TextInput
-                        style={styles.InputBox}
-                        onChangeText={handleChange('fname')}
-                        onBlur={handleBlur('fname')}
-                        value={values.fname}
-                        placeholder=" Enter Doctor's Name"
-
-                    />
-                </View>
-                <View style={styles.V2}>
-                    <Text style={styles.InputLable}>Doctor's Surname</Text>
-                    <TextInput
-                        style={styles.InputBox}
-                        onChangeText={handleChange('sname')}
-                        onBlur={handleBlur('sname')}
-                        value={values.sname}
-                        placeholder=" Enter Doctor's Surname"
-
-                    />
-                </View>
+            <ScrollView>
+                <ImageBackground source={require("../assets/back.png")}>
+                    <SafeAreaView style={styles.V1}>
 
 
-                <View style={styles.V2}>
-                    <Text style={styles.InputLable}>Doctor's email/Username</Text>
-                    <TextInput
-                        style={styles.InputBox}
-                        onChangeText={handleChange('email')}
-                        onBlur={handleBlur('email')}
-                        value={values.email}
-                        placeholder=" Enter Doctor's email"
-                    />
-                </View>
+                        <View style={styles.V2}>
 
-                <View style={styles.V2}>
-                    <Text style={styles.InputLable}>Password</Text>
-                    <TextInput
-                        style={styles.InputBox}
-                        onChangeText={handleChange('password')}
-                        onBlur={handleBlur('password')}
-                        value={values.password}
-                        placeholder=" Enter Doctor's password"
+                            <View style={styles.authView}>
+                                <Text style={styles.authText}>Doctor's Registration:</Text>
+                            </View>
+                            <Text style={styles.InputLable}>Doctor's First Name</Text>
+                            <TextInput
+                                style={styles.InputBox}
+                                onChangeText={handleChange('fname')}
+                                onBlur={handleBlur('fname')}
+                                value={values.fname}
+                                placeholder=" Enter Doctor's Name"
 
-                    />
-                </View>
+                            />
+                        </View>
+                        <View style={styles.V2}>
+                            <Text style={styles.InputLable}>Doctor's Surname</Text>
+                            <TextInput
+                                style={styles.InputBox}
+                                onChangeText={handleChange('sname')}
+                                onBlur={handleBlur('sname')}
+                                value={values.sname}
+                                placeholder=" Enter Doctor's Surname"
+
+                            />
+                        </View>
 
 
+                        <View style={styles.V2}>
+                            <Text style={styles.InputLable}>Doctor's email/Username</Text>
+                            <TextInput
+                                style={styles.InputBox}
+                                onChangeText={handleChange('email')}
+                                onBlur={handleBlur('email')}
+                                value={values.email}
+                                placeholder=" Enter Doctor's email"
+                            />
+                        </View>
 
-                <View style={styles.V2}>
-                    <Text style={styles.InputLable}>Hospital</Text>
-                    <Picker
-                        style={styles.InputBox}
-                        onValueChange={handleChange("Hospital")}
+                        <View style={styles.V2}>
+                            <Text style={styles.InputLable}>Password</Text>
+                            <TextInput
+                                style={styles.InputBox}
+                                onChangeText={handleChange('password')}
+                                onBlur={handleBlur('password')}
+                                value={values.password}
+                                placeholder=" Enter Doctor's password"
 
-                    >
-                        <Picker.Item label="AIIMS BHUBNESWAR" Value={values.hospital} />
-                        <Picker.Item label="AIIMS PATNA" value={values.hospital} />
-                        <Picker.Item label="AIIMS NEW DELHI" value={values.hospital} />
+                            />
+                        </View>
 
 
 
-                    </Picker>
-                </View>
+                        <View style={styles.V2}>
+                            <Text style={styles.InputLable}>Hospital</Text>
+                            <Picker
+                                style={styles.InputBox}
+                                onValueChange={handleChange("Hospital")}
+
+                            >
+                                <Picker.Item label="AIIMS BHUBNESWAR" Value={values.hospital} />
+                                <Picker.Item label="AIIMS PATNA" value={values.hospital} />
+                                <Picker.Item label="AIIMS NEW DELHI" value={values.hospital} />
 
 
 
-
+                            </Picker>
+                        </View>
 
 
 
@@ -139,14 +137,25 @@ export const DoctorRegister = ({ navigation }) => (
 
 
 
-                <View style={styles.submitBtn}>
-                    <Button onPress={() => navigation.navigate("SuccessDoctorReg")} title="Register Doctor" />
-                </View>
 
 
 
 
-            </SafeAreaView>
+                        <View style={styles.submitBtn}>
+
+
+                            <Pressable style={styles.Btn} onPress={() => navigation.navigate("SuccessDoctorReg")} >
+                                <Text style={styles.text}>Register Doctor</Text>
+                            </Pressable>
+
+                        </View>
+
+
+
+
+                    </SafeAreaView>
+                </ImageBackground>
+            </ScrollView>
         )}
     </Formik >
 );
@@ -213,15 +222,33 @@ const styles = StyleSheet.create({
     authText: {
         justifyContent: "flex-start",
         fontSize: 20,
-        fontFamily: "san-sarif",
-        fontWeight: 10
+        fontWeight: "100"
 
     },
     authView: {
 
         marginBottom: 20
 
-    }
+    },
+    Btn: {
+        widht: 50,
+        height: 50,
+        borderRadius: 10,
+        alignItems: 'center',
+        justifyContent: 'center',
+        paddingVertical: 12,
+        paddingHorizontal: 32,
+        borderRadius: 4,
+        elevation: 3,
+        backgroundColor: 'black',
+    },
+    text: {
+        fontSize: 16,
+        lineHeight: 21,
+        fontWeight: 'bold',
+        letterSpacing: 0.25,
+        color: 'white',
+    },
 
 })
 
