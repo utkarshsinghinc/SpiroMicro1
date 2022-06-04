@@ -1,65 +1,120 @@
-import React from 'react';
-import { Text, Button, TextInput, View, StyleSheet, TouchableOpacity, Image, Pressable } from 'react-native';
+import React, { useState } from 'react';
+import { Text, Button, TextInput, View, StyleSheet, TouchableOpacity, Image, Pressable, ActivityIndicator } from 'react-native';
 import { Formik } from 'formik';
-//import { Picker } from '@react-native-picker/picker';
-//import NumberPlease from 'react-native-number-please';
-//import player from './Wave';
-//const PatientAge = [{ id: "age", min: 0, max: 120 }];
-import Header from './Header';
+import { AsyncStorage } from 'react-native';
 
-const Login = ({ navigation }) => (
+const Login = ({ navigation }) => {
+
+    const handleSubmit = async (values) => {
+        const requestOptions = {
+            method: 'POST',
+            headers: { 'Content-Type': 'application/json' },
+            body: JSON.stringify(values)
+        };
+
+        return fetch(`http://localhost:4000/users/authenticate`, requestOptions)
+            .then(handleResponse)
+            .then(user => {
+                // store user details and jwt token in local storage to keep user logged in between page refreshes
+                localStorage.setItem('user', JSON.stringify(user));
+
+                return user;
+            })
+            .then()
+            .then(() => navigation.navigate("PatientLogin"));
+
+    }
+
+    function handleResponse(response) {
+        return response.text().then(text => {
+            const data = text && JSON.parse(text);
+            if (!response.ok) {
+                if (response.status === 401) {
+                    // auto logout if 401 response returned from api
+                    logout();
+                    location.reload(true);
+                }
+
+                const error = (data && data.message) || response.statusText;
+
+                return Promise.reject(error);
+            }
+
+            return data;
+        });
+    }
 
 
 
-    < Formik
-        initialValues={{ Username: "", password: "" }}
-        onSubmit={values => console.log(values)}
-    >
-        {({ handleChange, handleBlur, handleSubmit, values }) => (
+    // This function will be triggered when the button is pressed
 
-            <View style={styles.V1}>
+    return (
+        < Formik
+            initialValues={{ email: "", password: "" }}
+            onSubmit={handleSubmit}
+        >
+            {({ handleChange, handleBlur, handleSubmit, values, error }) => (
 
-                <View style={styles.V2}>
-                    <View style={styles.authView}>
-                        <Text style={styles.authText}>Doctor's Login:</Text>
+                <View style={styles.V1}>
+
+                    <View style={styles.V2}>
+                        <View style={styles.authView}>
+                            <Text style={styles.authText}>Doctor's Login:</Text>
+                        </View>
+                        {error && touched ? (
+                            <View>{error}</View>
+                        ) : null}
+                        <Text style={styles.InputLable}>Username </Text>
+                        <TextInput
+                            style={styles.InputBox}
+                            onChangeText={handleChange('email')}
+                            onBlur={handleBlur('email')}
+                            value={values.email}
+                            placeholder=" Enter your Email ID"
+
+                        />
                     </View>
-                    <Text style={styles.InputLable}>Username </Text>
-                    <TextInput
-                        style={styles.InputBox}
-                        onChangeText={handleChange('user')}
-                        onBlur={handleBlur('user')}
-                        value={values.pnumber}
-                        placeholder=" Enter your Email ID"
+                    <View style={styles.V2}>
+                        <Text style={styles.InputLable}>Password</Text>
+                        <TextInput
+                            style={styles.InputBox}
+                            onChangeText={handleChange('password')}
+                            onBlur={handleBlur('password')}
+                            value={values.password}
+                            secureTextEntry
+                            placeholder=" Enter your password"
 
-                    />
+                        />
+
+                    </View>
+
+
+
+
+                    <View style={styles.submitBtn}>
+
+                        <Pressable style={({ pressed }) => [
+                            {
+                                backgroundColor: pressed
+                                    ? '#5a6373'
+                                    : 'black'
+                            },
+                            styles.Btn
+                        ]} onPress={handleSubmit} >
+                            <Text style={styles.text}>Login</Text>
+                        </Pressable>
+                        <View>
+                            {handleResponse}
+                        </View>
+                    </View>
+
+
                 </View>
-                <View style={styles.V2}>
-                    <Text style={styles.InputLable}>Password</Text>
-                    <TextInput
-                        style={styles.InputBox}
-                        onChangeText={handleChange('password')}
-                        onBlur={handleBlur('password')}
-                        value={values.password}
-                        placeholder=" Enter your password"
-
-                    />
-                </View>
-
-
-
-
-                <View style={styles.submitBtn}>
-
-                    <Pressable style={styles.Btn} onPress={() => navigation.navigate("PatientLogin")} >
-                        <Text style={styles.text}>Login</Text>
-                    </Pressable>
-                </View>
-
-
-            </View>
-        )}
-    </Formik >
-);
+            )
+            }
+        </Formik >
+    )
+};
 
 
 const styles = StyleSheet.create({
@@ -87,8 +142,12 @@ const styles = StyleSheet.create({
     },
     InputBox: {
         borderWidth: 2,
-        borderRadius: 5,
-        height: 30
+        borderRadius: 20,
+        height: 60,
+        backgroundColor: "#ffffff",
+        padding: 20,
+        fontWeight: "600"
+
     },
     row: {
         justifyContent: "flex-start",
@@ -115,7 +174,7 @@ const styles = StyleSheet.create({
         justifyContent: "flex-start",
         fontSize: 20,
 
-        fontWeight: "100"
+        fontWeight: "bold"
 
     },
     authView: {
@@ -133,7 +192,7 @@ const styles = StyleSheet.create({
         paddingHorizontal: 32,
         borderRadius: 4,
         elevation: 3,
-        backgroundColor: 'black',
+        //backgroundColor: presses ? "#5a6373" : "black"
     },
     text: {
         fontSize: 16,

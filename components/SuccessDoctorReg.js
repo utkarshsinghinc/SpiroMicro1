@@ -15,14 +15,25 @@ const SuccessDoctorReg = ({ navigation }) => {
             <View style={styles.v1}>
 
 
-                <Pressable style={styles.Btn} onPress={() => navigation.navigate("DoctorRegister")}  >
+                <Pressable style={({ pressed }) => [
+                    {
+                        backgroundColor: pressed
+                            ? '#5a6373'
+                            : 'black'
+                    },
+                    styles.Btn
+                ]} onPress={() => navigation.navigate("DoctorRegister")}  >
                     <Text style={styles.text}>ADD NEW DOCTOR</Text>
                 </Pressable>
             </View>
             <View style={styles.v1} >
 
 
-                <Pressable style={styles.Btn} >
+                <Pressable style={{
+                    backgroundColor: pressed
+                        ? '#5a6373'
+                        : 'black'
+                }} >
                     <Text style={styles.text}>Delete Doctor</Text>
                 </Pressable>
             </View>
@@ -62,7 +73,7 @@ const styles = StyleSheet.create({
         paddingHorizontal: 32,
         borderRadius: 4,
         elevation: 3,
-        backgroundColor: 'black',
+        //backgroundColor: 'black',
     },
     text: {
         fontSize: 16,

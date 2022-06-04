@@ -19,49 +19,60 @@ const Icon = ({ icon, item, background }) => (
 const data = [
     {
         UHID: "  UHID",
-        name: "         NAME"
+        name: "         NAME",
+
     },
 
     {
         UHID: 392389281,
 
-        name: 'Devin'
+        name: 'Devin',
+        surname: "Dan"
     },
     {
         UHID: 392389281,
-        name: 'Dan'
+        name: 'Dan',
+        surname: "Dan"
     },
     {
         UHID: 392389281,
-        name: 'Dominic'
+        name: 'Dominic',
+        surname: "Dan"
     },
     {
         UHID: 392389281,
-        name: 'Jackson'
+        name: 'Jackson',
+        surname: "Dan"
     },
     {
         UHID: 392389281,
-        name: 'James'
+        name: 'James',
+        surname: "Dan"
     },
     {
         UHID: 392389281,
-        name: 'Joel'
+        name: 'Joel',
+        surname: "Dan"
     },
     {
         UHID: 392389281,
-        name: 'John'
+        name: 'John',
+        surname: "Dan"
     },
     {
         UHID: 392389281,
-        name: 'Jillian'
+        name: 'Jillian',
+        surname: "Dan"
     },
     {
         UHID: 392389281,
-        name: 'Jimmy'
+        name: 'Jimmy',
+        surname: "Dan"
     },
     {
         UHID: 392389281,
-        name: 'Julie'
+        name: 'Julie',
+        surname: "Dan"
     },
 
 ];

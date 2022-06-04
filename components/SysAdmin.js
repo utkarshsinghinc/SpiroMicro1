@@ -49,13 +49,15 @@ const AdminLogin = ({ navigation }) => (
                 <View style={styles.V2}>
                     <Text style={styles.InputLable}>Hospital</Text>
                     <Picker
-                        style={styles.InputBox}
-                        onValueChange={handleChange("Hospital")}
-
+                        style={styles.PickerBox}
+                        onValueChange={handleChange("hospital")}
+                        selectedValue={values.hospital}
+                        value={values.hospital}
                     >
-                        <Picker.Item label="AIIMS BHUBNESWAR" Value={values.hospital} />
-                        <Picker.Item label="AIIMS PATNA" value={values.hospital} />
-                        <Picker.Item label="AIIMS NEW DELHI" value={values.hospital} />
+                        <Picker.Item label="NOT SELECTED" />
+                        <Picker.Item label="AIIMS BHUBNESWAR" value="AIIMS BHUBNESWAR" />
+                        <Picker.Item label="AIIMS PATNA" value="AIIMS PATNA" />
+                        <Picker.Item label="AIIMS NEW DELHI" value="AIIMS NEW DELHI" />
 
 
 
@@ -66,7 +68,14 @@ const AdminLogin = ({ navigation }) => (
 
                 <View style={styles.submitBtn}>
 
-                    <Pressable style={styles.Btn} onPress={() => navigation.navigate("AddDoctor")}  >
+                    <Pressable style={({ pressed }) => [
+                        {
+                            backgroundColor: pressed
+                                ? '#5a6373'
+                                : 'black'
+                        },
+                        styles.Btn
+                    ]} onPress={() => navigation.navigate("AddDoctor")}  >
                         <Text style={styles.text}>Login</Text>
                     </Pressable>
 
@@ -105,8 +114,22 @@ const styles = StyleSheet.create({
     },
     InputBox: {
         borderWidth: 2,
-        borderRadius: 5,
-        height: 30
+        borderRadius: 20,
+        height: 60,
+        backgroundColor: "#ffffff",
+        padding: 20,
+        fontWeight: "500"
+
+    },
+    PickerBox: {
+        borderWidth: 2,
+        borderRadius: 20,
+        height: 60,
+        borderColor: "#000000",
+        paddingLeft: 20
+
+
+
     },
     row: {
         justifyContent: "flex-start",
@@ -132,7 +155,7 @@ const styles = StyleSheet.create({
     authText: {
         justifyContent: "flex-start",
         fontSize: 20,
-        fontWeight: "100"
+        fontWeight: "bold"
 
     },
     authView: {
@@ -150,7 +173,7 @@ const styles = StyleSheet.create({
         paddingHorizontal: 32,
         borderRadius: 4,
         elevation: 3,
-        backgroundColor: 'black',
+        //backgroundColor: 'black',
     },
     text: {
         fontSize: 16,

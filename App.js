@@ -24,7 +24,7 @@ import Header from './components/Header';
 //import AudioRecoder from './components/AudioRecorder';
 //mport AudioPlay from './components/AudioPlay';
 const Stack = createStackNavigator();
-export default function App() {
+export default function App({ navigation }) {
   return (
 
     <NavigationContainer>
@@ -49,6 +49,7 @@ export default function App() {
         <Stack.Screen name="PostRegistration" component={PostRegistration} options={{ headerShown: false }} />
         <Stack.Screen name="DoctorDashboard" component={DoctorDashboard} options={{ headerShown: false }} />
         <Stack.Screen name="SuccessDoctorReg" component={SuccessDoctorReg} options={{ headerShown: false }} />
+        <Stack.Screen name="Header" component={Header} options={{ headerShown: false }} />
       </Stack.Navigator>
 
     </NavigationContainer>

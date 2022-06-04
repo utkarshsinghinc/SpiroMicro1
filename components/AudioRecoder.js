@@ -70,12 +70,26 @@ const AudioRecoder = () => {
                 <View key={index} style={styles.row}>
                     <Text style={styles.fill}>Recording {index + 1} - {recordingLine.duration}</Text>
 
-                    <Pressable style={styles.Btn} onPress={() => recordingLine.sound.replayAsync()} >
+                    <Pressable style={({ pressed }) => [
+                        {
+                            backgroundColor: pressed
+                                ? '#5a6373'
+                                : 'black'
+                        },
+                        styles.Btn
+                    ]} onPress={() => recordingLine.sound.replayAsync()} >
                         <Text style={styles.text}>Play</Text>
                     </Pressable>
 
 
-                    <Pressable style={styles.Btn} onPress={() => Sharing.shareAsync(recordingLine.file)}  >
+                    <Pressable style={({ pressed }) => [
+                        {
+                            backgroundColor: pressed
+                                ? '#5a6373'
+                                : 'black'
+                        },
+                        styles.Btn
+                    ]} onPress={() => Sharing.shareAsync(recordingLine.file)}  >
                         <Text style={styles.text}>Share</Text>
                     </Pressable>
                 </View>
@@ -134,7 +148,7 @@ const styles = StyleSheet.create({
         paddingHorizontal: 32,
         borderRadius: 4,
         elevation: 3,
-        backgroundColor: 'black',
+        // backgroundColor: 'black',
     },
     text: {
         fontSize: 16,

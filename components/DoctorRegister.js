@@ -8,57 +8,95 @@ import { Picker } from '@react-native-picker/picker';
 //import Testing from './Testing';
 //import player from './Wave';
 import Header from './Header';
-
+// import useDispatch from "react-redux"
+// import { userActions } from "../src/_actions"
 //const PatientAge = [{ id: "age", min: 0, max: 120 }];
+import axios from 'axios';
 
-export const DoctorRegister = ({ navigation }) => (
 
-    // const handleSubmit = async () => {
-    //     const user = {
-    //       phone: phoneNumber,
-    //       name: name,
-    //       city: city,
-    //       gender: gender,
-    //       dob: date,
-    //       referalCode: referalCode,
-    //       isExistingCustomer: referalCode ? true : false,
-    //     };
+import * as Yup from "yup"
+// const validationSchema = Yup.object({
+//     fname: Yup.string().trim().min(3, "Invalid name!").required('FIRST NAME IS REQUIRED!'),
+//     sname: Yup.string().trim().required('SURNAME NAME IS REQUIRED!'),
+//     email: Yup.string().email("Invalid email").required('EMAIL IS REQUIRED!'),
+//     password: Yup.string().trim().min(8, "Password is too short!").required("PASSWORD IS REQUIRED!"),
 
-    //     if (referalCode) {
-    //       axios
-    //         .post(`${BASE_URL}/api/vendor/updateReferal`, {
-    //           referalCode: referalCode,
-    //         })
-    //         .then(() => {})
-    //         .catch((err) => {
-    //           return alert(err.response.data.error);
-    //         });
-    //     }
+// })
+const baseURL = "http://localhost:4000/users/register";
+export const DoctorRegister = ({ navigation }) => {
 
-    //     const result = await listingsApi.addUser(user);
-    //     console.log(result);
-    //     if (result.status == 401) {
-    //       return alert("Phone number already registered!");
-    //     } else if (!result.ok) {
-    //       return alert("Some Error Occured!");
-    //     } else {
-    //       //async storage token and id
-    //       const key = "user";
-    //       const user = {
-    //         id: result.data.id,
-    //         token: result.data.token,
-    //       };
-    //       navigation.navigate("Login");
-    //       return alert(phoneNumber + " Successfully Signed up!");
-    //     }
+    const validationSchema = Yup.object().shape({
+        fname: Yup.string()
+            .required('Required'),
+        sname: Yup.string()
+            .required('Required'),
+        email: Yup.string().email('Invalid email').required('Required'),
+        password: Yup.string()
+            .min(6, 'Password should be of min 6 character!')
+            .required('Required'),
+        hospital: Yup.string()
+            .required('Required'),
 
-    < Formik
-        initialValues={{ fname: '', sname: "", email: "", password: "", age: '', hospital: '' }}
-        onSubmit={values => console.log(values)}
-    >
-        {({ handleChange, handleBlur, handleSubmit, values }) => (
-            <ScrollView>
-                <ImageBackground source={require("../assets/back.png")}>
+    });
+
+    function handleResponse(response) {
+        return response.text().then(text => {
+            const data = text && JSON.parse(text);
+            if (!response.ok) {
+                if (response.status === 401) {
+                    // auto logout if 401 response returned from api
+                    logout();
+                    location.reload(true);
+                }
+
+                const error = (data && data.message) || response.statusText;
+                return Promise.reject(error);
+            }
+
+            return data;
+        });
+    }
+
+    const handleSubmit = async (values) => {
+
+        // const [post, setPost] = React.useState(null);
+
+        //  React.useEffect(() => {
+        //   axios.get(`${baseURL}/1`).then((response) => {
+        //     setPost(response.data);
+        //   });
+        // }, []);
+
+
+        // axios
+        //     .post(baseURL,
+        //         JSON.stringify(values)
+        //     )
+        const requestOptions = {
+            method: 'POST',
+            headers: { 'Content-Type': 'application/json' },
+            body: JSON.stringify(values)
+        };
+
+        return await fetch(`http://localhost:4000/users/register`, requestOptions)
+            // return await fetch(`https://olive-worms-hunt-117-99-229-47.loca.lt/users/register`, requestOptions)
+            .then(handleResponse)
+            .then(() => navigation.navigate("SuccessDoctorReg"));
+
+        // if (!post) return "No post!"
+    }
+
+    return (
+        < Formik
+            initialValues={{ fname: '', sname: "", email: "", password: "", hospital: '' }}
+            //onSubmit={values => console.log(values)}
+            onSubmit={handleSubmit}
+            validationSchema={validationSchema}
+
+        >
+            {({ handleChange, handleBlur, handleSubmit, values, errors, touched }) => (
+                <ScrollView>
+                    {/* <ImageBackground style={{ flex: 1, resizeMode: 'cover' }} source={require("../assets/back.png")}> */}
                     <SafeAreaView style={styles.V1}>
 
 
@@ -67,50 +105,103 @@ export const DoctorRegister = ({ navigation }) => (
                             <View style={styles.authView}>
                                 <Text style={styles.authText}>Doctor's Registration:</Text>
                             </View>
-                            <Text style={styles.InputLable}>Doctor's First Name</Text>
+                            <View style={styles.Verr}>
+                                <Text style={styles.InputLable}>Doctor's First Name</Text>
+                                {/* {errors ? (
+                                    <Text style={styles.terr}>{errors}</Text>
+                                ) : null
+
+                                } */}
+                            </View>
                             <TextInput
                                 style={styles.InputBox}
+                                // errors={touched.fname && errors.fname}
                                 onChangeText={handleChange('fname')}
                                 onBlur={handleBlur('fname')}
                                 value={values.fname}
                                 placeholder=" Enter Doctor's Name"
+                            //  placeholderTextColor={"#000000"}
+
 
                             />
+                            {errors.fname && touched.fname ? (
+                                <Text style={styles.errText}>{errors.fname}</Text>
+                            ) : null}
                         </View>
                         <View style={styles.V2}>
-                            <Text style={styles.InputLable}>Doctor's Surname</Text>
+
+                            <View style={styles.Verr}>
+                                <Text style={styles.InputLable}>Doctor's Surname</Text>
+                                {/* {errors ? (
+                                    <Text style={styles.terr}>{errors}</Text>
+                                ) : null
+
+                                } */}
+                            </View>
                             <TextInput
                                 style={styles.InputBox}
                                 onChangeText={handleChange('sname')}
+                                // errors={touched.sname && errors.sname}
                                 onBlur={handleBlur('sname')}
                                 value={values.sname}
                                 placeholder=" Enter Doctor's Surname"
+                            // placeholderTextColor={"#000000"}
 
                             />
+                            {errors.sname && touched.sname ? (
+                                <Text style={styles.errText}>{errors.sname}</Text>
+                            ) : null}
                         </View>
 
 
                         <View style={styles.V2}>
-                            <Text style={styles.InputLable}>Doctor's email/Username</Text>
+
+                            <View style={styles.Verr}>
+                                <Text style={styles.InputLable}>Doctor's email/Username</Text>
+                                {/* {errors ? (
+                                    <Text style={styles.terr}>{errors}</Text>
+                                ) : null
+
+                                } */}
+                            </View>
                             <TextInput
                                 style={styles.InputBox}
                                 onChangeText={handleChange('email')}
+                                // errors={touched.email && errors.email}
                                 onBlur={handleBlur('email')}
                                 value={values.email}
                                 placeholder=" Enter Doctor's email"
+                            // placeholderTextColor={"#000000"}
                             />
+                            {errors.email && touched.email ? (
+                                <Text style={styles.errText}>{errors.email}</Text>
+                            ) : null}
                         </View>
 
                         <View style={styles.V2}>
-                            <Text style={styles.InputLable}>Password</Text>
+
+                            <View style={styles.Verr}>
+                                <Text style={styles.InputLable}>Password</Text>
+                                {/* {errors ? (
+                                    <Text style={{ color: 'red, fontSize:16' }}>{errors}</Text>
+                                ) : null
+
+                                } */}
+                            </View>
                             <TextInput
                                 style={styles.InputBox}
                                 onChangeText={handleChange('password')}
                                 onBlur={handleBlur('password')}
+                                // errors={touched.password && errors.password}
                                 value={values.password}
+                                secureTextEntry
                                 placeholder=" Enter Doctor's password"
+                            // placeholderTextColor={"#000000"}
 
                             />
+                            {errors.password && touched.password ? (
+                                <Text style={styles.errText}>{errors.password}</Text>
+                            ) : null}
                         </View>
 
 
@@ -118,17 +209,34 @@ export const DoctorRegister = ({ navigation }) => (
                         <View style={styles.V2}>
                             <Text style={styles.InputLable}>Hospital</Text>
                             <Picker
-                                style={styles.InputBox}
-                                onValueChange={handleChange("Hospital")}
-
+                                style={styles.PickerBox}
+                                onValueChange={handleChange("hospital")}
+                                selectedValue={values.hospital}
+                                value={values.hospital}
+                                mode="dropdown"
                             >
-                                <Picker.Item label="AIIMS BHUBNESWAR" Value={values.hospital} />
-                                <Picker.Item label="AIIMS PATNA" value={values.hospital} />
-                                <Picker.Item label="AIIMS NEW DELHI" value={values.hospital} />
+                                <Picker.Item label="NOT SELECTED" value="NO" />
+                                <Picker.Item label="AIIMS BHUBNESWAR" value="AIIMS BHUBNESWAR" />
+                                <Picker.Item label="AIIMS PATNA" value="AIIMS PATNA" />
+                                <Picker.Item label="AIIMS NEW DELHI" value="AIIMS NEW DELHI" />
 
 
 
                             </Picker>
+                            {errors.hospital && touched.hospital ? (
+                                <Text style={styles.errText}>{errors.hospital}</Text>
+                            ) : null}
+                            {/* <TextInput
+                                    style={styles.InputBox}
+                                    onChangeText={handleChange('hospital')}
+                                    onBlur={handleBlur('hospital')}
+                                    // errors={touched.password && errors.password}
+                                    value={values.hospital}
+
+                                    placeholder=" Enter Doctor's password"
+
+                                /> */}
+
                         </View>
 
 
@@ -144,7 +252,17 @@ export const DoctorRegister = ({ navigation }) => (
                         <View style={styles.submitBtn}>
 
 
-                            <Pressable style={styles.Btn} onPress={() => navigation.navigate("SuccessDoctorReg")} >
+                            {/* <Pressable style={styles.Btn} onPress={() => navigation.navigate("SuccessDoctorReg")} >
+                                <Text style={styles.text}>Register Doctor</Text>
+                            </Pressable> */}
+                            <Pressable style={({ pressed }) => [
+                                {
+                                    backgroundColor: pressed
+                                        ? '#5a6373'
+                                        : 'black'
+                                },
+                                styles.Btn
+                            ]} onPress={handleSubmit} >
                                 <Text style={styles.text}>Register Doctor</Text>
                             </Pressable>
 
@@ -154,11 +272,12 @@ export const DoctorRegister = ({ navigation }) => (
 
 
                     </SafeAreaView>
-                </ImageBackground>
-            </ScrollView>
-        )}
-    </Formik >
-);
+                    {/* </ImageBackground> */}
+                </ScrollView>
+            )}
+        </Formik >
+    )
+};
 
 
 const styles = StyleSheet.create({
@@ -186,8 +305,22 @@ const styles = StyleSheet.create({
     },
     InputBox: {
         borderWidth: 2,
-        borderRadius: 5,
-        height: 30
+        borderRadius: 20,
+        height: 60,
+        backgroundColor: "#ffffff",
+        padding: 20,
+        fontWeight: "500"
+
+    },
+    PickerBox: {
+        borderWidth: 2,
+        borderRadius: 20,
+        height: 60,
+        borderColor: "#000000",
+        paddingLeft: 20
+
+
+
     },
     row: {
         justifyContent: "flex-start",
@@ -222,7 +355,7 @@ const styles = StyleSheet.create({
     authText: {
         justifyContent: "flex-start",
         fontSize: 20,
-        fontWeight: "100"
+        fontWeight: "bold"
 
     },
     authView: {
@@ -240,7 +373,7 @@ const styles = StyleSheet.create({
         paddingHorizontal: 32,
         borderRadius: 4,
         elevation: 3,
-        backgroundColor: 'black',
+        //backgroundColor: 'black',
     },
     text: {
         fontSize: 16,
@@ -249,6 +382,20 @@ const styles = StyleSheet.create({
         letterSpacing: 0.25,
         color: 'white',
     },
+    Verr: {
+        flexDirection: 'row',
+        justifyContent: 'space-between',
+        marginBottom: 5
+
+    },
+    terr: {
+        color: 'red',
+        fontSize: 16
+    },
+    errText: {
+        color: "#f50505",
+
+    }
 
 })
 

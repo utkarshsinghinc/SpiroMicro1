@@ -7,62 +7,99 @@ import { Formik } from 'formik';
 //const PatientAge = [{ id: "age", min: 0, max: 120 }];
 import Header from './Header';
 import PatientDashboard from './PatientDashboard';
+import * as Yup from 'yup';
+const PatientLogin = ({ navigation }) => {
 
-const PatientLogin = ({ navigation }) => (
-    <ScrollView>
-        <SafeAreaView>
 
-            < Formik
-                initialValues={{ pnumber: "", password: "" }}
-                onSubmit={values => console.log(values)}
-            >
-                {({ handleChange, handleBlur, handleSubmit, values }) => (
 
-                    <View style={styles.V1}>
+    const validationSchema = Yup.object().shape({
+        uhid: Yup.string()
+            .min(16, 'UHID should be of 16 digit!')
+            .max(16, 'UHID should be of 16 digit!')
+            .required('Required'),
+        // lastName: Yup.string()
+        //     .min(2, 'Too Short!')
+        //     .max(50, 'Too Long!')
+        //     .required('Required'),
+        // email: Yup.string().email('Invalid email').required('Required'),
+    });
 
-                        <View style={styles.row2}>
-                            <Text >Before Registration Search a Patient With UHID</Text>
-                            {/* <Text style={styles.text} onPress={() => navigation.navigate("PatientInfo")}>  Register Patient</Text> */}
+
+
+    return (
+        <ScrollView>
+            <SafeAreaView>
+
+                < Formik
+                    initialValues={{ pnumber: "", password: "" }}
+                    onSubmit={values => console.log(values)}
+                    validationSchema={validationSchema}
+                >
+                    {({ handleChange, handleBlur, handleSubmit, values, errors, touched }) => (
+
+                        <View style={styles.V1}>
+
+                            <View style={styles.row2}>
+                                <Text >Before Registration Search a Patient With UHID</Text>
+                                {/* <Text style={styles.text} onPress={() => navigation.navigate("PatientInfo")}>  Register Patient</Text> */}
+                            </View>
+
+                            <View style={styles.V2}>
+                                <Text style={styles.InputLable}>UHID</Text>
+                                <TextInput
+                                    style={styles.InputBox}
+                                    onChangeText={handleChange('uhid')}
+                                    onBlur={handleBlur('uhid')}
+                                    value={values.uhid}
+                                    placeholder=" Enter patient's UHID"
+
+                                />
+                                {errors.uhid && touched.uhid ? (
+                                    <View>{errors.uhid}</View>
+                                ) : null}
+                            </View>
+
+
+
+
+                            <View style={styles.submitBtn}>
+
+                                <Pressable style={({ pressed }) => [
+                                    {
+                                        backgroundColor: pressed
+                                            ? '#5a6373'
+                                            : 'black'
+                                    },
+                                    styles.Btn
+                                ]} onPress={() => navigation.navigate("DashBoard")} >
+                                    <Text style={styles.text}>Search</Text>
+                                </Pressable>
+
+                            </View>
+                            <View style={styles.submitBtn}>
+
+                                <Pressable style={({ pressed }) => [
+                                    {
+                                        backgroundColor: pressed
+                                            ? '#5a6373'
+                                            : 'black'
+                                    },
+                                    styles.Btn
+                                ]} onPress={() => navigation.navigate("PatientInfo")} >
+                                    <Text style={styles.text}>Register </Text>
+                                </Pressable>
+                            </View>
+
                         </View>
+                    )}
+                </Formik >
 
-                        <View style={styles.V2}>
-                            <Text style={styles.InputLable}>UHID</Text>
-                            <TextInput
-                                style={styles.InputBox}
-                                onChangeText={handleChange('uhid')}
-                                onBlur={handleBlur('uhid')}
-                                value={values.uhid}
-                                placeholder=" Enter patient's UHID"
+                <PatientDashboard />
+            </SafeAreaView>
+        </ScrollView>
 
-                            />
-                        </View>
-
-
-
-
-                        <View style={styles.submitBtn}>
-
-                            <Pressable style={styles.Btn} onPress={() => navigation.navigate("DashBoard")} >
-                                <Text style={styles.text}>Search</Text>
-                            </Pressable>
-
-                        </View>
-                        <View style={styles.submitBtn}>
-
-                            <Pressable style={styles.Btn} onPress={() => navigation.navigate("PatientInfo")} >
-                                <Text style={styles.text}>Register New Patient</Text>
-                            </Pressable>
-                        </View>
-
-                    </View>
-                )}
-            </Formik >
-
-            <PatientDashboard />
-        </SafeAreaView>
-    </ScrollView>
-
-);
+    )
+};
 
 
 const styles = StyleSheet.create({
@@ -90,8 +127,11 @@ const styles = StyleSheet.create({
     },
     InputBox: {
         borderWidth: 2,
-        borderRadius: 5,
-        height: 30
+        borderRadius: 20,
+        height: 60,
+        backgroundColor: "#ffffff",
+        padding: 20
+
     },
     row: {
         justifyContent: "flex-start",
@@ -136,7 +176,7 @@ const styles = StyleSheet.create({
         paddingHorizontal: 32,
         borderRadius: 4,
         elevation: 3,
-        backgroundColor: 'black',
+        //backgroundColor: 'black',
     },
     text: {
         fontSize: 16,

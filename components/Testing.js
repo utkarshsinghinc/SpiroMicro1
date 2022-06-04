@@ -8,7 +8,14 @@ const Testing = ({ navigation }) => {
 
             <View style={styles.View}>
 
-                <Pressable style={styles.Btn}  >
+                <Pressable style={({ pressed }) => [
+                    {
+                        backgroundColor: pressed
+                            ? '#5a6373'
+                            : 'black'
+                    },
+                    styles.Btn
+                ]}  >
                     <Text style={styles.text}>Respiratory</Text>
                 </Pressable>
 
@@ -17,7 +24,14 @@ const Testing = ({ navigation }) => {
             <View style={styles.View}>
 
 
-                <Pressable style={styles.Btn} onPress={() => navigation.navigate("AudioRecoder")} >
+                <Pressable style={({ pressed }) => [
+                    {
+                        backgroundColor: pressed
+                            ? '#5a6373'
+                            : 'black'
+                    },
+                    styles.Btn
+                ]} onPress={() => navigation.navigate("AudioRecoder")} >
                     <Text style={styles.text}>Cough</Text>
                 </Pressable>
             </View>
@@ -55,7 +69,7 @@ const styles = StyleSheet.create({
         paddingHorizontal: 32,
         borderRadius: 4,
         elevation: 3,
-        backgroundColor: 'black',
+        //backgroundColor: 'black',
     },
     text: {
         fontSize: 16,

@@ -70,7 +70,17 @@ const DashBoard = ({ navigation }) => {
                 </Text>
             </View>
 
-            <Button onPress={() => navigation.navigate("Testing")} title="NEW TEST" />
+            {/* <Button onPress={() => navigation.navigate("Testing")} title="NEW TEST" /> */}
+            <Pressable style={({ pressed }) => [
+                {
+                    backgroundColor: pressed
+                        ? '#5a6373'
+                        : 'black'
+                },
+                styles.Btn
+            ]} onPress={() => navigation.navigate("Testing")} >
+                <Text style={styles.text}>NEW TEST</Text>
+            </Pressable>
             <Dashboard
                 data={data}
                 card={card}

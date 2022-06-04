@@ -13,7 +13,14 @@ const PostRegistration = ({ navigation }) => {
             </View>
             <View style={styles.V1}>
 
-                <Pressable style={styles.Btn} onPress={() => navigation.navigate("Testing")} >
+                <Pressable style={({ pressed }) => [
+                    {
+                        backgroundColor: pressed
+                            ? '#5a6373'
+                            : 'black'
+                    },
+                    styles.Btn
+                ]} onPress={() => navigation.navigate("Testing")} >
                     <Text style={styles.text}>PERFORM NEW TEST</Text>
                 </Pressable>
 
@@ -50,7 +57,7 @@ const styles = StyleSheet.create({
         paddingHorizontal: 32,
         borderRadius: 4,
         elevation: 3,
-        backgroundColor: 'black',
+        //backgroundColor: 'black',
     },
     text: {
         fontSize: 16,

@@ -7,31 +7,31 @@ const AddDoctor = ({ navigation, Page, item }) => {
     return (
 
         <ScrollView>
-            <ImageBackground source={require("../assets/back.png")}>
-                <SafeAreaView>
+            {/* <ImageBackground source={require("../assets/back.png")}> */}
+            <SafeAreaView>
 
-                    <View style={styles.v1}>
-                        <Pressable style={styles.Btn} onPress={() => navigation.navigate("DoctorRegister")} >
-                            <Text style={styles.text}>ADD DOCTOR</Text>
-                        </Pressable>
-                    </View>
-                    <View style={styles.v1} >
-
-
-
-
-                        <Pressable style={styles.Btn}>
-                            <Text style={styles.text}>Delete DOCTOR</Text>
-                        </Pressable>
+                <View style={styles.v1}>
+                    <Pressable style={styles.Btn} onPress={() => navigation.navigate("DoctorRegister")} >
+                        <Text style={styles.text}>ADD DOCTOR</Text>
+                    </Pressable>
+                </View>
+                <View style={styles.v1} >
 
 
 
-                    </View>
 
-                    <DoctorDashboard />
+                    <Pressable style={styles.Btn}>
+                        <Text style={styles.text}>Delete DOCTOR</Text>
+                    </Pressable>
 
-                </SafeAreaView>
-            </ImageBackground>
+
+
+                </View>
+
+                <DoctorDashboard />
+
+            </SafeAreaView>
+            {/* </ImageBackground> */}
         </ScrollView>
 
     )
