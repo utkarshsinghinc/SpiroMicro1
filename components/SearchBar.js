@@ -1,107 +1,88 @@
-import React, { useState, useEffect } from 'react';
+import React from "react";
+import { StyleSheet, TextInput, View, Keyboard, Button } from "react-native";
+import { Feather, Entypo } from "@expo/vector-icons";
 
-// import all the components we are going to use
-import { SafeAreaView, Text, StyleSheet, View, FlatList } from 'react-native';
-import { SearchBar } from 'react-native-elements';
-
-const SearchBar = () => {
-    const [search, setSearch] = useState('');
-    const [filteredDataSource, setFilteredDataSource] = useState([]);
-    const [masterDataSource, setMasterDataSource] = useState([]);
-
-    useEffect(() => {
-        fetch('https://jsonplaceholder.typicode.com/posts')
-            .then((response) => response.json())
-            .then((responseJson) => {
-                setFilteredDataSource(responseJson);
-                setMasterDataSource(responseJson);
-            })
-            .catch((error) => {
-                console.error(error);
-            });
-    }, []);
-
-    const searchFilterFunction = (text) => {
-        // Check if searched text is not blank
-        if (text) {
-            // Inserted text is not blank
-            // Filter the masterDataSource
-            // Update FilteredDataSource
-            const newData = masterDataSource.filter(function (item) {
-                const itemData = item.title
-                    ? item.title.toUpperCase()
-                    : ''.toUpperCase();
-                const textData = text.toUpperCase();
-                return itemData.indexOf(textData) > -1;
-            });
-            setFilteredDataSource(newData);
-            setSearch(text);
-        } else {
-            // Inserted text is blank
-            // Update FilteredDataSource with masterDataSource
-            setFilteredDataSource(masterDataSource);
-            setSearch(text);
-        }
-    };
-
-    const ItemView = ({ item }) => {
-        return (
-            // Flat List Item
-            <Text style={styles.itemStyle} onPress={() => getItem(item)}>
-                {item.id}
-                {'.'}
-                {item.title.toUpperCase()}
-            </Text>
-        );
-    };
-
-    const ItemSeparatorView = () => {
-        return (
-            // Flat List Item Separator
-            <View
-                style={{
-                    height: 0.5,
-                    width: '100%',
-                    backgroundColor: '#C8C8C8',
-                }}
-            />
-        );
-    };
-
-    const getItem = (item) => {
-        // Function for click on an item
-        alert('Id : ' + item.id + ' Title : ' + item.title);
-    };
-
+const SearchBar = ({ clicked, searchPhrase, setSearchPhrase, setClicked }) => {
     return (
-        <SafeAreaView style={{ flex: 1 }}>
-            <View style={styles.container}>
-                <SearchBar
-                    round
-                    searchIcon={{ size: 24 }}
-                    onChangeText={(text) => searchFilterFunction(text)}
-                    onClear={(text) => searchFilterFunction('')}
-                    placeholder="Type Here..."
-                    value={search}
+        <View style={styles.container}>
+            <View
+                style={
+                    clicked
+                        ? styles.searchBar__clicked
+                        : styles.searchBar__unclicked
+                }
+            >
+                {/* search Icon */}
+                <Feather
+                    name="search"
+                    size={20}
+                    color="black"
+                    style={{ marginLeft: 1 }}
                 />
-                <FlatList
-                    data={filteredDataSource}
-                    keyExtractor={(item, index) => index.toString()}
-                    ItemSeparatorComponent={ItemSeparatorView}
-                    renderItem={ItemView}
+                {/* Input field */}
+                <TextInput
+                    style={styles.input}
+                    placeholder="Search"
+                    value={searchPhrase}
+                    onChangeText={setSearchPhrase}
+                    onFocus={() => {
+                        setClicked(true);
+                    }}
                 />
+                {/* cross Icon, depending on whether the search bar is clicked or not */}
+                {clicked && (
+                    <Entypo name="cross" size={20} color="black" style={{ padding: 1 }} onPress={() => {
+                        setSearchPhrase("")
+                    }} />
+                )}
             </View>
-        </SafeAreaView>
+            {/* cancel button, depending on whether the search bar is clicked or not */}
+            {clicked && (
+                <View>
+                    <Button
+                        title="Cancel"
+                        onPress={() => {
+                            Keyboard.dismiss();
+                            setClicked(false);
+                        }}
+                    ></Button>
+                </View>
+            )}
+        </View>
     );
 };
+export default SearchBar;
 
+// styles
 const styles = StyleSheet.create({
     container: {
-        backgroundColor: 'white',
+        margin: 15,
+        justifyContent: "flex-start",
+        alignItems: "center",
+        flexDirection: "row",
+        width: "90%",
+
     },
-    itemStyle: {
+    searchBar__unclicked: {
         padding: 10,
+        flexDirection: "row",
+        width: "95%",
+        backgroundColor: "#d9dbda",
+        borderRadius: 15,
+        alignItems: "center",
+    },
+    searchBar__clicked: {
+        padding: 10,
+        flexDirection: "row",
+        width: "80%",
+        backgroundColor: "#d9dbda",
+        borderRadius: 15,
+        alignItems: "center",
+        justifyContent: "space-evenly",
+    },
+    input: {
+        fontSize: 20,
+        marginLeft: 10,
+        width: "90%",
     },
 });
-
-export default SearchBar;

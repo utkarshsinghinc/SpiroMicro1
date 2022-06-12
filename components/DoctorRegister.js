@@ -3,25 +3,14 @@ import React from 'react';
 import { Text, Button, TextInput, View, StyleSheet, ScrollView, SafeAreaView, ImageBackground, Pressable } from 'react-native';
 import { Formik } from 'formik';
 import { Picker } from '@react-native-picker/picker';
-//import NumberPlease from 'react-native-number-please';
-//import { Login } from './Login';
-//import Testing from './Testing';
-//import player from './Wave';
+
 import Header from './Header';
-// import useDispatch from "react-redux"
-// import { userActions } from "../src/_actions"
-//const PatientAge = [{ id: "age", min: 0, max: 120 }];
+
 import axios from 'axios';
 
 
 import * as Yup from "yup"
-// const validationSchema = Yup.object({
-//     fname: Yup.string().trim().min(3, "Invalid name!").required('FIRST NAME IS REQUIRED!'),
-//     sname: Yup.string().trim().required('SURNAME NAME IS REQUIRED!'),
-//     email: Yup.string().email("Invalid email").required('EMAIL IS REQUIRED!'),
-//     password: Yup.string().trim().min(8, "Password is too short!").required("PASSWORD IS REQUIRED!"),
 
-// })
 const baseURL = "http://localhost:4000/users/register";
 export const DoctorRegister = ({ navigation }) => {
 
@@ -78,7 +67,7 @@ export const DoctorRegister = ({ navigation }) => {
             body: JSON.stringify(values)
         };
 
-        return await fetch(`http://localhost:4000/users/register`, requestOptions)
+        return await fetch(`http://localhost:4000/doctors/register`, requestOptions)
             // return await fetch(`https://olive-worms-hunt-117-99-229-47.loca.lt/users/register`, requestOptions)
             .then(handleResponse)
             .then(() => navigation.navigate("SuccessDoctorReg"));

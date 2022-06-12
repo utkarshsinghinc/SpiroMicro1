@@ -12,6 +12,7 @@ import StopWatch from './StopWatch';
 
 
 
+
 const AudioRecoder = () => {
     const [recording, setRecording] = React.useState();
     const [recordings, setRecordings] = React.useState([]);
@@ -49,7 +50,7 @@ const AudioRecoder = () => {
         updatedRecordings.push({
             sound: sound,
             duration: getDurationFormatted(status.durationMillis),
-            file: recording.getURI(),
+            file: "../assests/",
 
         });
 

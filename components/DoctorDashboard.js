@@ -1,4 +1,4 @@
-import React, { Component } from 'react';
+import React, { Component, useState, useEffect } from 'react';
 import { Text, View, StyleSheet, Button } from 'react-native';
 import Dashboard from '../nodepkg/react-native-dashboard/Dashboard';
 import { FontAwesome } from 'react-native-vector-icons';
@@ -14,6 +14,7 @@ const Icon = ({ icon, item, background }) => (
     />
 );
 
+//const [clicked, setClicked] = useState(false);
 
 
 const data = [
@@ -67,12 +68,25 @@ const data = [
 ];
 
 const DoctorDashboard = ({ navigation }) => {
-    const card = ({ name }) => console.log('Card: ' + name);
+    const [fakeData, setFakeData] = useState();
+
+    // get data from the fake api endpoint
+    useEffect(() => {
+        const getData = async () => {
+            const apiResponse = await fetch(
+                "http://localhost:4000/doctors"
+            );
+            const data = await apiResponse.json();
+            setFakeData(data);
+        };
+        getData();
+    }, []);
+    const card = ({ fname }) => console.log('Card: ' + fname);
     return (
         <View>
 
             <Dashboard
-                data={data}
+                data={fakeData}
                 card={card}
                 column={1}
                 rippleColor={'#3498db'}

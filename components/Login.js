@@ -12,7 +12,7 @@ const Login = ({ navigation }) => {
             body: JSON.stringify(values)
         };
 
-        return fetch(`http://localhost:4000/users/authenticate`, requestOptions)
+        return fetch(`http://localhost:4000/doctors/authenticate`, requestOptions)
             .then(handleResponse)
             .then(user => {
                 // store user details and jwt token in local storage to keep user logged in between page refreshes

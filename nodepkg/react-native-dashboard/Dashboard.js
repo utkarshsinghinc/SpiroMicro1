@@ -69,7 +69,7 @@ export default function Dashboard({
                                     },
                                     item.styleName,
                                 ]}>
-                                {item.UHID || index}             {item.name || index}   {item.surname}
+                                {item.uhid || index}             {item.fname || index}   {item.sname}
                             </Text>
                         </View>
                     </Touchable>

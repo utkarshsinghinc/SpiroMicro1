@@ -1,5 +1,5 @@
-import React from 'react';
-import { Text, Button, TextInput, View, StyleSheet, TouchableOpacity, Image, SafeAreaView, ScrollView, Pressable } from 'react-native';
+import React, { useEffect } from 'react';
+import { Text, Button, TextInput, View, StyleSheet, TouchableOpacity, Image, SafeAreaView, ScrollView, Pressable, FlatList, TouchableHighlight } from 'react-native';
 import { Formik } from 'formik';
 //import { Picker } from '@react-native-picker/picker';
 //import NumberPlease from 'react-native-number-please';
@@ -8,6 +8,9 @@ import { Formik } from 'formik';
 import Header from './Header';
 import PatientDashboard from './PatientDashboard';
 import * as Yup from 'yup';
+import DashB from './DashB';
+import Home from './Home';
+//import { FlatList, TouchableHighlight } from 'react-native-gesture-handler';
 const PatientLogin = ({ navigation }) => {
 
 
@@ -26,6 +29,12 @@ const PatientLogin = ({ navigation }) => {
 
 
 
+
+
+
+
+
+
     return (
         <ScrollView>
             <SafeAreaView>
@@ -35,16 +44,30 @@ const PatientLogin = ({ navigation }) => {
                     onSubmit={values => console.log(values)}
                     validationSchema={validationSchema}
                 >
-                    {({ handleChange, handleBlur, handleSubmit, values, errors, touched }) => (
+                    {({ handleChange, handleBlur, handleSubmit, patients, handleDeleteUser, values, errors, touched }) => (
 
                         <View style={styles.V1}>
+
+                            <View style={styles.submitBtn}>
+
+                                <Pressable style={({ pressed }) => [
+                                    {
+                                        backgroundColor: pressed
+                                            ? '#5a6373'
+                                            : 'black'
+                                    },
+                                    styles.Btn
+                                ]} onPress={() => navigation.navigate("PatientInfo")} >
+                                    <Text style={styles.text}>Register New Patient </Text>
+                                </Pressable>
+                            </View>
 
                             <View style={styles.row2}>
                                 <Text >Before Registration Search a Patient With UHID</Text>
                                 {/* <Text style={styles.text} onPress={() => navigation.navigate("PatientInfo")}>  Register Patient</Text> */}
                             </View>
 
-                            <View style={styles.V2}>
+                            {/* <View style={styles.V2}>
                                 <Text style={styles.InputLable}>UHID</Text>
                                 <TextInput
                                     style={styles.InputBox}
@@ -57,12 +80,13 @@ const PatientLogin = ({ navigation }) => {
                                 {errors.uhid && touched.uhid ? (
                                     <View>{errors.uhid}</View>
                                 ) : null}
-                            </View>
+                            </View> */}
+                            <Home />
 
 
 
 
-                            <View style={styles.submitBtn}>
+                            {/* <View style={styles.submitBtn}>
 
                                 <Pressable style={({ pressed }) => [
                                     {
@@ -75,26 +99,16 @@ const PatientLogin = ({ navigation }) => {
                                     <Text style={styles.text}>Search</Text>
                                 </Pressable>
 
-                            </View>
-                            <View style={styles.submitBtn}>
+                            </View> */}
 
-                                <Pressable style={({ pressed }) => [
-                                    {
-                                        backgroundColor: pressed
-                                            ? '#5a6373'
-                                            : 'black'
-                                    },
-                                    styles.Btn
-                                ]} onPress={() => navigation.navigate("PatientInfo")} >
-                                    <Text style={styles.text}>Register </Text>
-                                </Pressable>
-                            </View>
 
                         </View>
                     )}
                 </Formik >
 
-                <PatientDashboard />
+                {/* <PatientDashboard /> */}
+                <DashB />
+
             </SafeAreaView>
         </ScrollView>
 

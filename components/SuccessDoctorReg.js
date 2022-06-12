@@ -22,18 +22,21 @@ const SuccessDoctorReg = ({ navigation }) => {
                             : 'black'
                     },
                     styles.Btn
-                ]} onPress={() => navigation.navigate("DoctorRegister")}  >
+                ]} onPress={() => navigation.navigate("DoctorRegister")}>
                     <Text style={styles.text}>ADD NEW DOCTOR</Text>
                 </Pressable>
             </View>
             <View style={styles.v1} >
 
 
-                <Pressable style={{
-                    backgroundColor: pressed
-                        ? '#5a6373'
-                        : 'black'
-                }} >
+                <Pressable style={({ pressed }) => [
+                    {
+                        backgroundColor: pressed
+                            ? '#5a6373'
+                            : 'black'
+                    },
+                    styles.Btn
+                ]} >
                     <Text style={styles.text}>Delete Doctor</Text>
                 </Pressable>
             </View>

@@ -1,7 +1,8 @@
 import React from "react";
 import { Text, View, Image, StyleSheet, TouchableOpacity, Touchable, SafeAreaView, TouchableHighlight } from "react-native"
-
-const Header = ({ navigation }) => {
+import { useNavigation } from "@react-navigation/native";
+const Header = () => {
+    const navigation = useNavigation();
     return (
         <SafeAreaView style={styles.Safe}>
             <TouchableHighlight onPress={() => navigation.navigate("HomePage")}>

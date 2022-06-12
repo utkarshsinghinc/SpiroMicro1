@@ -4,7 +4,7 @@ import { Text, Button, TextInput, View, StyleSheet, ScrollView, SafeAreaView, Pr
 import { Formik } from 'formik';
 import { Picker } from '@react-native-picker/picker';
 
-import Header from './Header';
+//import Header from './Header';
 import * as Yup from "yup"
 
 export const PatientInfo = ({ navigation }) => {
@@ -23,24 +23,61 @@ export const PatientInfo = ({ navigation }) => {
             .min(16, 'UHID should be of 16 digit!')
             .max(16, 'UHID should be of 16 digit!')
             .required('Required'),
-        pnumber: Yup.number(10, "Enter Number").positive("Enter Positive Number").integer()
+        pnumber: Yup.string()
             .min(10, 'Enter 10 digit phone number')
-            .max(10, 'Enter 10 digit phone number'),
+            .max(15, 'invalid Phone number'),
         email: Yup.string().email('Invalid email').required('Required'),
         age: Yup.number("Enter Number").positive().integer().required('Required'),
         gender: Yup.string()
             .required('Required'),
-        Height: Yup.number("Height should be a number").positive().integer().required('Required'),
-        Weight: Yup.number("Height should be a number").positive().integer().required('Required'),
+        Height: Yup.number("Height should be a number").positive().required('Required'),
+        Weight: Yup.number("Height should be a number").positive().required('Required'),
         Smoking: Yup.string().required('Required'),
-        Chest: Yup.string().required('Required')
+        Chest: Yup.string().required('Required'),
+        docId: Yup.string().required('Required'),
+        hospital: Yup.string().required('Required')
 
     });
+
+    function handleResponse(response) {
+        return response.text().then(text => {
+            const data = text && JSON.parse(text);
+            if (!response.ok) {
+                if (response.status === 401) {
+                    // auto logout if 401 response returned from api
+                    logout();
+                    location.reload(true);
+                }
+
+                const error = (data && data.message) || response.statusText;
+                return Promise.reject(error);
+            }
+
+            return data;
+        });
+    }
+
+    const handleSubmit = async (values) => {
+
+
+        const requestOptions = {
+            method: 'POST',
+            headers: { 'Content-Type': 'application/json' },
+            body: JSON.stringify(values)
+        };
+
+        return await fetch(`http://localhost:4000/patients/register`, requestOptions)
+            // return await fetch(`https://olive-worms-hunt-117-99-229-47.loca.lt/users/register`, requestOptions)
+            .then(handleResponse)
+            .then(() => navigation.navigate("PostRegistration"));
+
+        // if (!post) return "No post!"
+    }
     return (
         < Formik
-            initialValues={{ fname: '', sname: "", uhid: "", pnumber: "", email: "", age: '', gender: '', Height: '', Weight: '', Smoking: '', Chest: "" }}
-            onSubmit={values => console.log(values)}
-            validationSchema={validationSchema}
+            initialValues={{ fname: "", sname: "", uhid: "", pnumber: "", email: "", age: "", gender: "", Height: "", Weight: "", Smoking: "", Chest: "", docId: "", hospital: "" }}
+            onSubmit={handleSubmit}
+        //validationSchema={validationSchema}
         >
             {({ handleChange, handleBlur, handleSubmit, values, errors, touched }) => (
                 <ScrollView>
@@ -135,7 +172,7 @@ export const PatientInfo = ({ navigation }) => {
                                 placeholder=" Enter patient's age"
                                 keyboardType="numeric"
 
-                                autoFocus={true}
+
                             />
                             {errors.age && touched.age ? (
                                 <Text style={styles.errText}>{errors.age}</Text>
@@ -147,12 +184,13 @@ export const PatientInfo = ({ navigation }) => {
                             <Picker
                                 style={styles.PickerBox}
                                 onValueChange={handleChange("gender")}
-
+                                selectedValue={values.gender}
+                                value={values.gender}
                             >
-                                <Picker.Item label="Not Selected" Value={values.gender} />
-                                <Picker.Item label="Male" value={values.gender} />
-                                <Picker.Item label="Female" value={values.gender} />
-                                <Picker.Item label="Transgender" value={values.gender} />
+                                <Picker.Item label="Not Selected" />
+                                <Picker.Item label="Male" value="Male" />
+                                <Picker.Item label="Female" value="Female" />
+                                <Picker.Item label="Transgender" value="Transgender" />
 
 
                             </Picker>
@@ -194,12 +232,14 @@ export const PatientInfo = ({ navigation }) => {
                             <Picker
                                 style={styles.PickerBox}
                                 onValueChange={handleChange("Smoking")}
+                                selectedValue={values.Smoking}
+                                value={values.Smoking}
 
                             >
-                                <Picker.Item label="Not Selected" value={values.Smoking} />
-                                <Picker.Item label="Yes/mild smoker(1 or less daily)" value="0" />
-                                <Picker.Item label="Yes/Reguler smoker(2 or more daily)" value="0" />
-                                <Picker.Item label="No" value="1" />
+                                <Picker.Item label="Not Selected" />
+                                <Picker.Item label="Yes/mild smoker(1 or less daily)" value="Yes/mild smoker(1 or less daily)" />
+                                <Picker.Item label="Yes/Reguler smoker(2 or more daily)" value="Yes/Reguler smoker(2 or more daily)" />
+                                <Picker.Item label="No" value="No" />
 
 
                             </Picker>
@@ -214,16 +254,55 @@ export const PatientInfo = ({ navigation }) => {
                             <Picker
                                 style={styles.PickerBox}
                                 onValueChange={handleChange("Chest")}
+                                selectedValue={values.Chest}
+                                value={values.Chest}
                             >
-                                <Picker.Item label="Not Selected" value={values.Chest} />
-                                <Picker.Item label="Yes" value={values.Chest} />
-                                <Picker.Item label="No" value={values.Chest} />
+                                <Picker.Item label="Not Selected" />
+                                <Picker.Item label="Yes" value="Yes" />
+                                <Picker.Item label="No" value="No" />
 
 
                             </Picker>
                             {errors.Chest && touched.Chest ? (
                                 <Text style={styles.errText}>{errors.Chest}</Text>
                             ) : null}
+                        </View>
+
+                        <View style={styles.V2}>
+                            <Text style={styles.InputLable}>Doctor ID</Text>
+                            <TextInput
+                                style={styles.InputBox}
+                                onChangeText={handleChange("docId")}
+                                onBlur={handleBlur('docId')}
+                                value={values.docId}
+                                placeholder=" Enter doctorId"
+
+                            />
+                            {errors.docId && touched.docId ? (
+                                <Text style={styles.errText}>{errors.docId}</Text>
+                            ) : null}
+                        </View>
+                        <View style={styles.V2}>
+                            <Text style={styles.InputLable}>Hospital</Text>
+                            <Picker
+                                style={styles.PickerBox}
+                                onValueChange={handleChange("hospital")}
+                                selectedValue={values.hospital}
+                                value={values.hospital}
+                            // mode="dropdown"
+                            >
+                                <Picker.Item label="NOT SELECTED" />
+                                <Picker.Item label="AIIMS BHUBNESWAR" value="AIIMS BHUBNESWAR" />
+                                <Picker.Item label="AIIMS PATNA" value="AIIMS PATNA" />
+                                <Picker.Item label="AIIMS NEW DELHI" value="AIIMS NEW DELHI" />
+
+
+
+                            </Picker>
+                            {errors.hospital && touched.hospital ? (
+                                <Text style={styles.errText}>{errors.hospital}</Text>
+                            ) : null}
+
                         </View>
 
 
@@ -238,7 +317,7 @@ export const PatientInfo = ({ navigation }) => {
                                         : 'black'
                                 },
                                 styles.Btn
-                            ]} onPress={() => navigation.navigate("PostRegistration")} >
+                            ]} onPress={handleSubmit} >
                                 <Text style={styles.text}>Register Patient</Text>
                             </Pressable>
                         </View>

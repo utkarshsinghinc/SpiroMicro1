@@ -21,6 +21,9 @@ import PostRegistration from './components/PostRegistration';
 import DoctorDashboard from './components/DoctorDashboard';
 import SuccessDoctorReg from './components/SuccessDoctorReg';
 import Header from './components/Header';
+import DashB from './components/DashB';
+import PatientDetails from './components/PatientDetails';
+import WaveF from './components/WaveF';
 //import AudioRecoder from './components/AudioRecorder';
 //mport AudioPlay from './components/AudioPlay';
 const Stack = createStackNavigator();
@@ -33,6 +36,7 @@ export default function App({ navigation }) {
 
       <Stack.Navigator initialRouteName="HomePage">
         <Stack.Screen name="PatientInfo" component={PatientInfo} options={{ headerShown: false }} />
+        <Stack.Screen name="WaveF" component={WaveF} options={{ headerShown: false }} />
         <Stack.Screen name="Login" component={Login} options={{ headerShown: false }} />
         <Stack.Screen name="Testing" component={Testing} options={{ headerShown: false }} />
         {/* <Stack.Screen name="AudioRecorder" component={AudioRecoder} options={{ headerShown: false }} />
@@ -50,6 +54,8 @@ export default function App({ navigation }) {
         <Stack.Screen name="DoctorDashboard" component={DoctorDashboard} options={{ headerShown: false }} />
         <Stack.Screen name="SuccessDoctorReg" component={SuccessDoctorReg} options={{ headerShown: false }} />
         <Stack.Screen name="Header" component={Header} options={{ headerShown: false }} />
+        <Stack.Screen name="DashB" component={DashB} options={{ headerShown: false }} />
+        <Stack.Screen name="PatientDetails" component={PatientDetails} options={{ headerShown: false }} />
       </Stack.Navigator>
 
     </NavigationContainer>
