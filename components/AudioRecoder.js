@@ -1,12 +1,14 @@
 import { StatusBar } from 'expo-status-bar';
 import React from 'react';
-import { Button, StyleSheet, Text, View, SafeAreaView, ScrollView, ImageBackground, Pressable } from 'react-native';
+import { Button, StyleSheet, Text, View, SafeAreaView, ScrollView, ImageBackground, Pressable, BackHandler } from 'react-native';
 import { Audio } from 'expo-av';
 import * as Sharing from 'expo-sharing';
 import StopWatch from './StopWatch';
+import { RECORDING_OPTION_IOS_OUTPUT_FORMAT_MPEG4AAC } from 'expo-av/build/Audio';
+import { BASE_URL } from '../constants/utils';
 // import Header from './Header';
 // import { ScrollView } from 'react-native-gesture-handler';
-
+//import * as FileSystem from 'expo-file-system';
 
 
 
@@ -50,12 +52,31 @@ const AudioRecoder = () => {
         updatedRecordings.push({
             sound: sound,
             duration: getDurationFormatted(status.durationMillis),
-            file: "../assests/",
+            file: recording.getURI(),
 
         });
 
         setRecordings(updatedRecordings);
     }
+    // async function handleSubmit(recordingLine) {
+
+    //     const file = {
+    //         file: recordingLine.file,             // e.g. 'file:///path/to/file/image123.jpg'
+    //         // e.g. 'image123.jpg',
+    //         // type: audio / m4a            // e.g. 'image/jpg'
+    //     }
+
+    //     const body = new FormData()
+    //     body.append('file', file)
+
+    //     fetch(`http://localhost:4000/audioUpload/audio`, {
+    //         method: 'POST',
+    //         body
+    //     })
+
+
+    // }
+
 
     function getDurationFormatted(millis) {
         const minutes = millis / 1000 / 60;
@@ -90,20 +111,77 @@ const AudioRecoder = () => {
                                 : 'black'
                         },
                         styles.Btn
-                    ]} onPress={() => Sharing.shareAsync(recordingLine.file)}  >
-                        <Text style={styles.text}>Share</Text>
+                    ]} onPress={postDocument(recordingLine.file)}  >
+                        <Text style={styles.text}>Save</Text>
                     </Pressable>
                 </View>
             );
         });
     }
 
+
+    // async function uploadBackgroundVideo(localUrl) {
+    //     const response = await FileSystem.uploadAsync(`http://localhost:4000/api/multipart-upload`, localUrl, {
+    //         headers: {
+    //             "Content-Type": "multipart/form-data"
+    //         },
+    //         sessionType: FileSystem.FileSystemSessionType.BACKGROUND,
+    //         httpMethod: 'POST',
+    //         fieldName: 'audio',
+    //         mimeType: 'audio/quicktime',
+    //         uploadType: FileSystem.FileSystemUploadType.MULTIPART,
+    //     })
+    //     console.log(JSON.stringify(response.body), 'Response from uploading to local server')
+    // }
+
+    //   async function getLibraryVideo() {
+    //     const { status } = await ImagePicker.requestMediaLibraryPermissionsAsync();
+    //     if (status !== 'granted') {
+    //       return alert('Sorry, we need camera roll permissions to make this work!');
+    //     }
+    //     let result = await ImagePicker.launchImageLibraryAsync({
+    //       mediaTypes: ImagePicker.MediaTypeOptions.Videos,
+    //       videoQuality: ImagePicker.UIImagePickerControllerQualityType.High,
+    //       quality: .1
+    //     })
+
+    //     if (!result.cancelled) {
+    //       uploadBackgroundVideo(result.uri)
+    //     }
+    //   }
+
+
+    const postDocument = ({ uri }) => {
+        const doc = {
+            name: "rec",
+            size: 8,
+            uri: uri,
+            type: "application/" + "m4a"
+        }
+        const url = `${BASE_URL}/audioUplaod/upload`;
+        const fileUri = doc.uri;
+        const formData = new FormData();
+        formData.append('document', doc);
+        const options = {
+            method: 'POST',
+            body: formData,
+            headers: {
+                Accept: 'application/json',
+                'Content-Type': 'multipart/form-data',
+            },
+        };
+        console.log(formData);
+
+        fetch(url, options).catch((error) => console.log(error));
+    }
+
+
     return (
 
         <ScrollView>
 
             <View style={styles.container}>
-                <StopWatch startStop={recording ? stopRecording : startRecording} />
+                <StopWatch startStop={recording ? stopRecording : startRecording} startTimer={startRecording} stopTimer={stopRecording} />
                 <Text>{message}</Text>
                 {/* <Pressable style={styles.Btn} onPress={recording ? stopRecording : startRecording}  >
                     <Text style={styles.text}>{recording ? 'Stop Recording' : 'Start Recording'}</Text>

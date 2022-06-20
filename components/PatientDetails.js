@@ -1,12 +1,12 @@
 import React from "react";
 import { View, Text, StyleSheet, Button, Pressable } from "react-native"
-
+import { useRoute } from "@react-navigation/native";
 const PatientDetails = (props) => {
-
+    const route = useRoute();
     return (
         <View style={styles.v1}>
 
-            <Text>Hi {props.name}</Text>
+            <Text>Hi {route.params.name}</Text>
 
             <Pressable style={({ pressed }) => [
                 {

@@ -7,7 +7,9 @@ import {
 } from "react-native";
 import List from "../components/List";
 import SearchBar from "../components/SearchBar";
+import { BASE_URL } from "../constants/utils";
 import DashB from "./DashB";
+//import { BASE_URL } from "../constants/utils"
 
 const Home = () => {
     const [searchPhrase, setSearchPhrase] = useState("");
@@ -18,7 +20,7 @@ const Home = () => {
     useEffect(() => {
         const getData = async () => {
             const apiResponse = await fetch(
-                "http://localhost:4000/patients"
+                BASE_URL + "/patients"
             );
             const data = await apiResponse.json();
             setFakeData(data);

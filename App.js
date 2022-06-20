@@ -24,6 +24,9 @@ import Header from './components/Header';
 import DashB from './components/DashB';
 import PatientDetails from './components/PatientDetails';
 import WaveF from './components/WaveF';
+import EmailUpdate from './UpdatePage/EmailUpdate';
+import PasswordUpdate from './UpdatePage/PasswordUpdate';
+import Update from './UpdatePage/Update';
 //import AudioRecoder from './components/AudioRecorder';
 //mport AudioPlay from './components/AudioPlay';
 const Stack = createStackNavigator();
@@ -56,6 +59,9 @@ export default function App({ navigation }) {
         <Stack.Screen name="Header" component={Header} options={{ headerShown: false }} />
         <Stack.Screen name="DashB" component={DashB} options={{ headerShown: false }} />
         <Stack.Screen name="PatientDetails" component={PatientDetails} options={{ headerShown: false }} />
+        <Stack.Screen name="EmailUpdate" component={EmailUpdate} options={{ headerShown: false }} />
+        <Stack.Screen name="PasswordUpdate" component={PasswordUpdate} options={{ headerShown: false }} />
+        <Stack.Screen name="Update" component={Update} options={{ headerShown: false }} />
       </Stack.Navigator>
 
     </NavigationContainer>

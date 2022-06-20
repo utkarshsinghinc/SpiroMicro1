@@ -3,7 +3,7 @@ import React from 'react';
 import { Text, Button, TextInput, View, StyleSheet, ScrollView, SafeAreaView, ImageBackground, Pressable } from 'react-native';
 import { Formik } from 'formik';
 import { Picker } from '@react-native-picker/picker';
-
+import { BASE_URL } from "../constants/utils"
 import Header from './Header';
 
 import axios from 'axios';
@@ -11,7 +11,7 @@ import axios from 'axios';
 
 import * as Yup from "yup"
 
-const baseURL = "http://localhost:4000/users/register";
+
 export const DoctorRegister = ({ navigation }) => {
 
     const validationSchema = Yup.object().shape({
@@ -23,7 +23,7 @@ export const DoctorRegister = ({ navigation }) => {
         password: Yup.string()
             .min(6, 'Password should be of min 6 character!')
             .required('Required'),
-        hospital: Yup.string()
+        docEC: Yup.string()
             .required('Required'),
 
     });
@@ -67,7 +67,7 @@ export const DoctorRegister = ({ navigation }) => {
             body: JSON.stringify(values)
         };
 
-        return await fetch(`http://localhost:4000/doctors/register`, requestOptions)
+        return await fetch(BASE_URL + "/doctors/register", requestOptions)
             // return await fetch(`https://olive-worms-hunt-117-99-229-47.loca.lt/users/register`, requestOptions)
             .then(handleResponse)
             .then(() => navigation.navigate("SuccessDoctorReg"));
@@ -77,7 +77,7 @@ export const DoctorRegister = ({ navigation }) => {
 
     return (
         < Formik
-            initialValues={{ fname: '', sname: "", email: "", password: "", hospital: '' }}
+            initialValues={{ fname: '', sname: "", email: "", password: "", docEC: '' }}
             //onSubmit={values => console.log(values)}
             onSubmit={handleSubmit}
             validationSchema={validationSchema}
@@ -196,31 +196,27 @@ export const DoctorRegister = ({ navigation }) => {
 
 
                         <View style={styles.V2}>
-                            <Text style={styles.InputLable}>Hospital</Text>
-                            <Picker
-                                style={styles.PickerBox}
-                                onValueChange={handleChange("hospital")}
-                                selectedValue={values.hospital}
-                                value={values.hospital}
-                                mode="dropdown"
-                            >
-                                <Picker.Item label="NOT SELECTED" value="NO" />
-                                <Picker.Item label="AIIMS BHUBNESWAR" value="AIIMS BHUBNESWAR" />
-                                <Picker.Item label="AIIMS PATNA" value="AIIMS PATNA" />
-                                <Picker.Item label="AIIMS NEW DELHI" value="AIIMS NEW DELHI" />
+                            <Text style={styles.InputLable}>DOCTOR E.C.</Text>
+                            <TextInput
+                                style={styles.InputBox}
+                                onChangeText={handleChange('docEC')}
+                                onBlur={handleBlur('docEC')}
+                                // errors={touched.password && errors.password}
+                                value={values.docEC}
+                                secureTextEntry
+                                placeholder=" Enter Doctor's E.C."
+                            // placeholderTextColor={"#000000"}
 
-
-
-                            </Picker>
-                            {errors.hospital && touched.hospital ? (
-                                <Text style={styles.errText}>{errors.hospital}</Text>
+                            />
+                            {errors.docEC && touched.docEC ? (
+                                <Text style={styles.errText}>{errors.docEC}</Text>
                             ) : null}
                             {/* <TextInput
                                     style={styles.InputBox}
-                                    onChangeText={handleChange('hospital')}
-                                    onBlur={handleBlur('hospital')}
+                                    onChangeText={handleChange('docEC')}
+                                    onBlur={handleBlur('docEC')}
                                     // errors={touched.password && errors.password}
-                                    value={values.hospital}
+                                    value={values.docEC}
 
                                     placeholder=" Enter Doctor's password"
 

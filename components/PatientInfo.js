@@ -6,7 +6,7 @@ import { Picker } from '@react-native-picker/picker';
 
 //import Header from './Header';
 import * as Yup from "yup"
-
+import { BASE_URL } from '../constants/utils'
 export const PatientInfo = ({ navigation }) => {
 
     const validationSchema = Yup.object().shape({
@@ -15,7 +15,7 @@ export const PatientInfo = ({ navigation }) => {
             // .max(16, 'UHID should be of 16 digit!')
             .required('Required'),
 
-        lastName: Yup.string()
+        sname: Yup.string()
             //     .min(2, 'Too Short!')
             //     .max(50, 'Too Long!')
             .required('Required'),
@@ -27,11 +27,11 @@ export const PatientInfo = ({ navigation }) => {
             .min(10, 'Enter 10 digit phone number')
             .max(15, 'invalid Phone number'),
         email: Yup.string().email('Invalid email').required('Required'),
-        age: Yup.number("Enter Number").positive().integer().required('Required'),
+        age: Yup.number("Enter Number").required('Required'),
         gender: Yup.string()
             .required('Required'),
-        Height: Yup.number("Height should be a number").positive().required('Required'),
-        Weight: Yup.number("Height should be a number").positive().required('Required'),
+        Height: Yup.number("Height should be a number").required('Required'),
+        Weight: Yup.number("Height should be a number").required('Required'),
         Smoking: Yup.string().required('Required'),
         Chest: Yup.string().required('Required'),
         docId: Yup.string().required('Required'),
@@ -66,7 +66,7 @@ export const PatientInfo = ({ navigation }) => {
             body: JSON.stringify(values)
         };
 
-        return await fetch(`http://localhost:4000/patients/register`, requestOptions)
+        return await fetch(BASE_URL + "/patients/register", requestOptions)
             // return await fetch(`https://olive-worms-hunt-117-99-229-47.loca.lt/users/register`, requestOptions)
             .then(handleResponse)
             .then(() => navigation.navigate("PostRegistration"));
@@ -77,7 +77,7 @@ export const PatientInfo = ({ navigation }) => {
         < Formik
             initialValues={{ fname: "", sname: "", uhid: "", pnumber: "", email: "", age: "", gender: "", Height: "", Weight: "", Smoking: "", Chest: "", docId: "", hospital: "" }}
             onSubmit={handleSubmit}
-        //validationSchema={validationSchema}
+            validationSchema={validationSchema}
         >
             {({ handleChange, handleBlur, handleSubmit, values, errors, touched }) => (
                 <ScrollView>
@@ -360,9 +360,10 @@ const styles = StyleSheet.create({
 
         borderWidth: 2,
         borderRadius: 20,
-        height: 40,
+        height: 60,
         backgroundColor: "#ffffff",
-        padding: 20
+        padding: 20,
+        fontWeight: "500"
 
     },
     PickerBox: {

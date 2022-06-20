@@ -7,46 +7,84 @@ import { Formik } from 'formik';
 //const PatientAge = [{ id: "age", min: 0, max: 120 }];
 import Header from './Header';
 import { Picker } from '@react-native-picker/picker';
+import { BASE_URL } from "../constants/utils"
 //import DoctorDashboard from './DoctorDashboard';
-const AdminLogin = ({ navigation }) => (
+const AdminLogin = ({ navigation }) => {
 
+    const handleSubmit = async (values) => {
+        const requestOptions = {
+            method: 'POST',
+            headers: { 'Content-Type': 'application/json' },
+            body: JSON.stringify(values)
+        };
 
+        return fetch(BASE_URL + "/admin/authenticate", requestOptions)
+            .then(handleResponse)
+            .then(user => {
+                // store user details and jwt token in local storage to keep user logged in between page refreshes
+                localStorage.setItem('user', JSON.stringify(user));
 
-    < Formik
-        initialValues={{ pnumber: "", password: "", hospital: "" }}
-        onSubmit={values => console.log(values)}
-    >
-        {({ handleChange, handleBlur, handleSubmit, values }) => (
+                return user;
+            })
+            .then()
+            .then(() => navigation.navigate("AddDoctor"));
 
-            <View style={styles.V1}>
+    }
 
-                <View style={styles.V2}>
-                    <View style={styles.authView}>
-                        <Text style={styles.authText}>Admin Login:</Text>
+    function handleResponse(response) {
+        return response.text().then(text => {
+            const data = text && JSON.parse(text);
+            if (!response.ok) {
+                if (response.status === 401) {
+                    // auto logout if 401 response returned from api
+                    logout();
+                    location.reload(true);
+                }
+
+                const error = (data && data.message) || response.statusText;
+
+                return Promise.reject(error);
+            }
+
+            return data;
+        });
+    }
+    return (
+        < Formik
+            initialValues={{ email: "", password: "" }}
+            onSubmit={handleSubmit}
+        >
+            {({ handleChange, handleBlur, handleSubmit, values }) => (
+
+                <View style={styles.V1}>
+
+                    <View style={styles.V2}>
+                        <View style={styles.authView}>
+                            <Text style={styles.authText}>Admin Login:</Text>
+                        </View>
+
+                        <Text style={styles.InputLable}>Email</Text>
+                        <TextInput
+                            style={styles.InputBox}
+                            onChangeText={handleChange('email')}
+                            onBlur={handleBlur('email')}
+                            value={values.email}
+                            placeholder=" Enter your email"
+
+                        />
                     </View>
+                    <View style={styles.V2}>
+                        <Text style={styles.InputLable}>Password</Text>
+                        <TextInput
+                            style={styles.InputBox}
+                            onChangeText={handleChange('password')}
+                            onBlur={handleBlur('password')}
+                            value={values.password}
+                            placeholder=" Enter your password"
 
-                    <Text style={styles.InputLable}>Email</Text>
-                    <TextInput
-                        style={styles.InputBox}
-                        onChangeText={handleChange('pnumber')}
-                        onBlur={handleBlur('pnumber')}
-                        value={values.pnumber}
-                        placeholder=" Enter your email"
-
-                    />
-                </View>
-                <View style={styles.V2}>
-                    <Text style={styles.InputLable}>Password</Text>
-                    <TextInput
-                        style={styles.InputBox}
-                        onChangeText={handleChange('password')}
-                        onBlur={handleBlur('password')}
-                        value={values.password}
-                        placeholder=" Enter your password"
-
-                    />
-                </View>
-                <View style={styles.V2}>
+                        />
+                    </View>
+                    {/* <View style={styles.V2}>
                     <Text style={styles.InputLable}>Hospital</Text>
                     <Picker
                         style={styles.PickerBox}
@@ -62,31 +100,32 @@ const AdminLogin = ({ navigation }) => (
 
 
                     </Picker>
+                </View> */}
+
+
+
+                    <View style={styles.submitBtn}>
+
+                        <Pressable style={({ pressed }) => [
+                            {
+                                backgroundColor: pressed
+                                    ? '#5a6373'
+                                    : 'black'
+                            },
+                            styles.Btn
+                        ]} onPress={() => navigation.navigate("AddDoctor")}  >
+                            <Text style={styles.text}>Login</Text>
+                        </Pressable>
+
+                    </View>
+
+
+
                 </View>
-
-
-
-                <View style={styles.submitBtn}>
-
-                    <Pressable style={({ pressed }) => [
-                        {
-                            backgroundColor: pressed
-                                ? '#5a6373'
-                                : 'black'
-                        },
-                        styles.Btn
-                    ]} onPress={() => navigation.navigate("AddDoctor")}  >
-                        <Text style={styles.text}>Login</Text>
-                    </Pressable>
-
-                </View>
-
-
-
-            </View>
-        )}
-    </Formik >
-);
+            )}
+        </Formik >
+    )
+};
 
 
 const styles = StyleSheet.create({

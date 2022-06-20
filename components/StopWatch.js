@@ -16,13 +16,14 @@ import {
 // importing library to use Stopwatch and Timer
 import { Stopwatch, Timer } from 'react-native-stopwatch-timer';
 
-const StopWatch = ({ startStop }) => {
+const StopWatch = ({ startStop, startTimer, stopTimer }) => {
     const [isTimerStart, setIsTimerStart] = useState(false);
     const [isStopwatchStart, setIsStopwatchStart] = useState(false);
     const [timerDuration, setTimerDuration] = useState(15000);
     const [resetTimer, setResetTimer] = useState(false);
     const [resetStopwatch, setResetStopwatch] = useState(false);
 
+    //const start = { isTimerStart }
 
     return (
         <SafeAreaView style={styles.container}>
@@ -30,8 +31,8 @@ const StopWatch = ({ startStop }) => {
 
                 <View style={styles.sectionStyle}>
                     <Stopwatch
-                        laps
-                        msecs
+                        // laps
+                        // msecs
                         start={isStopwatchStart}
                         // To start
                         reset={resetStopwatch}
@@ -42,24 +43,29 @@ const StopWatch = ({ startStop }) => {
                             console.log(time);
                         }}
                     />
-                    <TouchableHighlight
-                        onPress={() => {
-                            setIsStopwatchStart(!isStopwatchStart);
-                            setResetStopwatch(false);
-                            startStop();
-                        }}>
-                        <Text style={styles.buttonText}>
-                            {!isStopwatchStart ? 'START RECORDING' : 'STOP RECORDING'}
-                        </Text>
-                    </TouchableHighlight>
+                    <View style={styles.startreset}>
 
-                    <TouchableHighlight
-                        onPress={() => {
-                            setIsStopwatchStart(false);
-                            setResetStopwatch(true);
-                        }}>
-                        <Text style={styles.buttonText}>RESET</Text>
-                    </TouchableHighlight>
+                        <TouchableHighlight
+                            style={{ margin: 10, borderColor: 'black', borderWidth: 3, padding: 5 }}
+                            onPress={() => {
+                                setIsStopwatchStart(!isStopwatchStart);
+                                setResetStopwatch(false);
+                                startStop();
+                            }}>
+                            <Text style={styles.buttonText}>
+                                {!isStopwatchStart ? 'START RECORDING' : 'STOP RECORDING'}
+                            </Text>
+                        </TouchableHighlight>
+
+                        <TouchableHighlight
+                            style={{ margin: 10, borderColor: 'black', borderWidth: 3, padding: 5 }}
+                            onPress={() => {
+                                setIsStopwatchStart(false);
+                                setResetStopwatch(true);
+                            }}>
+                            <Text style={styles.buttonText}>RESET</Text>
+                        </TouchableHighlight>
+                    </View>
                 </View>
                 <View style={styles.sectionStyle}>
                     <Timer
@@ -67,9 +73,7 @@ const StopWatch = ({ startStop }) => {
                         msecs
                         // Time Duration
                         start={
-
                             isTimerStart
-
                         }
                         // To start
                         reset={resetTimer}
@@ -77,10 +81,10 @@ const StopWatch = ({ startStop }) => {
                         options={options}
                         // Options for the styling
                         handleFinish={() => {
+                            //startStop();
+                            !isTimerStart
 
-                            setIsTimerStart(!isTimerStart);
 
-                            startStop();
 
                         }}
                         // Can call a function On finish of the time
@@ -90,10 +94,10 @@ const StopWatch = ({ startStop }) => {
                     />
                     <TouchableHighlight
                         onPress={() => {
+                            startStop();
                             setIsTimerStart(!isTimerStart);
                             setResetTimer(false);
 
-                            startStop();
 
 
                         }}>
@@ -140,6 +144,9 @@ const styles = StyleSheet.create({
         fontSize: 20,
         marginTop: 10,
     },
+    startreset: {
+        flexDirection: "row"
+    }
 });
 
 const options = {
@@ -154,7 +161,8 @@ const options = {
         fontSize: 25,
         color: '#FFF',
         marginLeft: 7,
-    },
+    }
+
 };
 
 export default StopWatch;

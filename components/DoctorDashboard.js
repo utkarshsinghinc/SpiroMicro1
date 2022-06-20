@@ -2,7 +2,7 @@ import React, { Component, useState, useEffect } from 'react';
 import { Text, View, StyleSheet, Button } from 'react-native';
 import Dashboard from '../nodepkg/react-native-dashboard/Dashboard';
 import { FontAwesome } from 'react-native-vector-icons';
-
+import { BASE_URL } from "../constants/utils"
 const Icon = ({ icon, item, background }) => (
     <FontAwesome
         name={icon}
@@ -74,7 +74,7 @@ const DoctorDashboard = ({ navigation }) => {
     useEffect(() => {
         const getData = async () => {
             const apiResponse = await fetch(
-                "http://localhost:4000/doctors"
+                BASE_URL + "/doctors/"
             );
             const data = await apiResponse.json();
             setFakeData(data);
@@ -82,6 +82,7 @@ const DoctorDashboard = ({ navigation }) => {
         getData();
     }, []);
     const card = ({ fname }) => console.log('Card: ' + fname);
+
     return (
         <View>
 
@@ -91,6 +92,8 @@ const DoctorDashboard = ({ navigation }) => {
                 column={1}
                 rippleColor={'#3498db'}
             />
+
+            <Text>{f.fname}</Text>
         </View>
     );
 }

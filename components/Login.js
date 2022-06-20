@@ -1,8 +1,8 @@
 import React, { useState } from 'react';
 import { Text, Button, TextInput, View, StyleSheet, TouchableOpacity, Image, Pressable, ActivityIndicator } from 'react-native';
 import { Formik } from 'formik';
-import { AsyncStorage } from 'react-native';
-
+//import { AsyncStorage } from 'react-native';
+import { BASE_URL } from "../constants/utils"
 const Login = ({ navigation }) => {
 
     const handleSubmit = async (values) => {
@@ -12,7 +12,7 @@ const Login = ({ navigation }) => {
             body: JSON.stringify(values)
         };
 
-        return fetch(`http://localhost:4000/doctors/authenticate`, requestOptions)
+        return fetch(BASE_URL + "/doctors/authenticate", requestOptions)
             .then(handleResponse)
             .then(user => {
                 // store user details and jwt token in local storage to keep user logged in between page refreshes

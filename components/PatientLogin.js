@@ -10,8 +10,9 @@ import PatientDashboard from './PatientDashboard';
 import * as Yup from 'yup';
 import DashB from './DashB';
 import Home from './Home';
+import { useNavigation } from '@react-navigation/native';
 //import { FlatList, TouchableHighlight } from 'react-native-gesture-handler';
-const PatientLogin = ({ navigation }) => {
+const PatientLogin = () => {
 
 
 
@@ -34,7 +35,7 @@ const PatientLogin = ({ navigation }) => {
 
 
 
-
+    const navigation = useNavigation();
     return (
         <ScrollView>
             <SafeAreaView>
@@ -47,7 +48,9 @@ const PatientLogin = ({ navigation }) => {
                     {({ handleChange, handleBlur, handleSubmit, patients, handleDeleteUser, values, errors, touched }) => (
 
                         <View style={styles.V1}>
-
+                            <TouchableOpacity onPress={() => navigation.navigate("Update")} style={styles.updateView}>
+                                <Text style={styles.updateText}>Update Profile</Text>
+                            </TouchableOpacity>
                             <View style={styles.submitBtn}>
 
                                 <Pressable style={({ pressed }) => [
@@ -60,6 +63,7 @@ const PatientLogin = ({ navigation }) => {
                                 ]} onPress={() => navigation.navigate("PatientInfo")} >
                                     <Text style={styles.text}>Register New Patient </Text>
                                 </Pressable>
+
                             </View>
 
                             <View style={styles.row2}>
@@ -198,6 +202,14 @@ const styles = StyleSheet.create({
         fontWeight: 'bold',
         letterSpacing: 0.25,
         color: 'white',
+    },
+    updateText: {
+        alignSelf: "flex-end"
+    },
+    updateView: {
+        justifyContent: "flex-end",
+        alignContent: "flex-end",
+        alignItems: "flex-end"
     }
 
 

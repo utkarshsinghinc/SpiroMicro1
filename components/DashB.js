@@ -3,7 +3,7 @@ import React, { useState, useEffect } from "react";
 import { FlatList, SafeAreaView, StatusBar, StyleSheet, Text, TouchableOpacity, View, Image, Alert } from "react-native";
 import { withNavigation } from "react-navigation"
 import { useNavigation } from "@react-navigation/native";
-
+import { BASE_URL } from "../constants/utils"
 
 
 
@@ -47,7 +47,7 @@ const DashB = ({ searchPhrase, setClicked, data }) => {
             // headers: authHeader()
         };
 
-        const response = await fetch(`http://localhost:4000/patients/${id}`, requestOptions);
+        const response = await fetch(BASE_URL + "/patients/${id}", requestOptions);
         return handleResponse(response);
     }
 
@@ -75,15 +75,19 @@ const DashB = ({ searchPhrase, setClicked, data }) => {
         const navigation = useNavigation();
         return (
 
-            <TouchableOpacity onPress={() => navigation.navigate("Testing")} style={[styles.item, backgroundColor]}>
+            <TouchableOpacity onPress={() => navigation.navigate("PatientDetails", {
+                name: name
+            }
+            )} style={[styles.item, backgroundColor]}>
                 {/* <Text style={[styles.title, textColor]}>{item.fname} {item.sname}</Text> */}
                 <Text style={styles.txt}>{uhid} </Text>
                 <Text style={styles.txt}>{name} </Text>
                 <Text style={styles.txt}>{details}</Text>
 
-                <TouchableOpacity onPress={() => handleDeleteUser(dlt)} style={styles.dltTo} >
+                {/* <TouchableOpacity onPress={() => handleDeleteUser(dlt)} style={styles.dltTo} >
                     <Image style={styles.delete} source={require("../assets/delete.png")} />
-                </TouchableOpacity>
+                </TouchableOpacity> */}
+
 
             </TouchableOpacity>
 
