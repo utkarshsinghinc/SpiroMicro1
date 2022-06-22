@@ -3,24 +3,41 @@ import React from "react";
 import { Text, View, StyleSheet, TextInput, Pressable } from "react-native"
 import { useRoute } from "@react-navigation/native";
 import { AsyncStorage } from 'react-native';
-import { stringify, toJSON, fromJSON } from 'flatted';
+//import { stringify, toJSON, fromJSON } from 'flatted';
 import { BASE_URL } from "../constants/utils";
 
 
 const EmailUpdate = () => {
 
-    const update = async (values) => {
+    // const update = async (values) => {
 
 
+    //     const requestOptions = {
+    //         method: 'PUT',
+    //         //headers: { 'Content-Type': 'application/json' },
+    //         body: JSON.stringify({ email: values.email })
+    //     };
+    //     const response = await fetch(BASE_URL + `/doctors/` + 7, requestOptions);
+
+    //     return handleResponse(response);
+    // }
+
+    async function updatePost(params) {
+        const email = params.email;
+        // const id = params.id
+        // const ID=JSON.stringify(id);
+        const post = {
+            email: email
+        }
         const requestOptions = {
             method: 'PUT',
-            // headers: { 'Content-Type': 'application/json' },
-            body: stringify(values)
+            headers: { 'Content-Type': 'application/json' },
+            body: JSON.stringify(post)
         };
-        const response = await fetch(BASE_URL + `/doctors/7`, requestOptions);
-
+        const response = await fetch(BASE_URL + `/doctors/` + 7, requestOptions);
         return handleResponse(response);
     }
+
 
     function handleResponse(response) {
         return response.text().then(text => {
@@ -43,7 +60,7 @@ const EmailUpdate = () => {
     return (
         < Formik
             initialValues={{ email: "", id: "" }}
-            onSubmit={update}
+            onSubmit={updatePost}
 
         >
             {({ handleChange, handleBlur, handleSubmit, values, error }) => (
@@ -62,6 +79,17 @@ const EmailUpdate = () => {
 
                         />
                     </View>
+                    {/* <View style={styles.V2}>
+                        <Text style={styles.InputLable}>fname </Text>
+                        <TextInput
+                            style={styles.InputBox}
+                            onChangeText={handleChange('fname')}
+                            onBlur={handleBlur('fname')}
+                            value={values.fname}
+                            placeholder=" Enter your fname"
+
+                        />
+                    </View> */}
                     {/* <View style={styles.V2}>
                         <Text style={styles.InputLable}>Doctor E.C </Text>
                         <TextInput
@@ -89,7 +117,7 @@ const EmailUpdate = () => {
                                     : 'black'
                             },
                             styles.Btn
-                        ]} onPress={update} >
+                        ]} onPress={updatePost(values)} >
                             <Text style={styles.text}>Update</Text>
                         </Pressable>
 
