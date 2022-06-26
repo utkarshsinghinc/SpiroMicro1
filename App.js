@@ -23,7 +23,6 @@ import SuccessDoctorReg from './components/SuccessDoctorReg';
 import Header from './components/Header';
 import DashB from './components/DashB';
 import PatientDetails from './components/PatientDetails';
-import WaveF from './components/WaveF';
 import EmailUpdate from './UpdatePage/EmailUpdate';
 import PasswordUpdate from './UpdatePage/PasswordUpdate';
 import Update from './UpdatePage/Update';
@@ -39,7 +38,6 @@ export default function App({ navigation }) {
 
       <Stack.Navigator initialRouteName="HomePage">
         <Stack.Screen name="PatientInfo" component={PatientInfo} options={{ headerShown: false }} />
-        <Stack.Screen name="WaveF" component={WaveF} options={{ headerShown: false }} />
         <Stack.Screen name="Login" component={Login} options={{ headerShown: false }} />
         <Stack.Screen name="Testing" component={Testing} options={{ headerShown: false }} />
         {/* <Stack.Screen name="AudioRecorder" component={AudioRecoder} options={{ headerShown: false }} />

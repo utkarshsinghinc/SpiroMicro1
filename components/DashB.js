@@ -75,7 +75,7 @@ const DashB = ({ searchPhrase, setClicked, data }) => {
         const navigation = useNavigation();
         return (
 
-            <TouchableOpacity onPress={() => navigation.navigate("PatientDetails", {
+            <TouchableOpacity onPress={() => navigation.navigate("Testing", {
                 name: name
             }
             )} style={[styles.item, backgroundColor]}>

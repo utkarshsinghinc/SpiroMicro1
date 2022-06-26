@@ -4,7 +4,7 @@ import { Button, StyleSheet, Text, View, SafeAreaView, ScrollView, ImageBackgrou
 import { Audio } from 'expo-av';
 import * as Sharing from 'expo-sharing';
 import StopWatch from './StopWatch';
-import { RECORDING_OPTION_IOS_OUTPUT_FORMAT_MPEG4AAC } from 'expo-av/build/Audio';
+//import { RECORDING_OPTION_IOS_OUTPUT_FORMAT_MPEG4AAC } from 'expo-av/build/Audio';
 import { BASE_URL } from '../constants/utils';
 // import Header from './Header';
 // import { ScrollView } from 'react-native-gesture-handler';
@@ -58,24 +58,29 @@ const AudioRecoder = () => {
 
         setRecordings(updatedRecordings);
     }
-    // async function handleSubmit(recordingLine) {
+    // async function handleSubmit(params) {
 
     //     const file = {
-    //         file: recordingLine.file,             // e.g. 'file:///path/to/file/image123.jpg'
-    //         // e.g. 'image123.jpg',
-    //         // type: audio / m4a            // e.g. 'image/jpg'
+    //         image: params.file,
+    //         title: "wjw",
+    //         price: "21",
+    //         description: "ugaba",
+    //         published: true
+
+    //         // e.g. 'image/jpg'
     //     }
 
     //     const body = new FormData()
     //     body.append('file', file)
 
-    //     fetch(`http://localhost:4000/audioUpload/audio`, {
+    //     fetch(BASE_URL + `/api/products/addProduct`, {
     //         method: 'POST',
     //         body
     //     })
 
-
     // }
+
+
 
 
     function getDurationFormatted(millis) {
@@ -111,7 +116,10 @@ const AudioRecoder = () => {
                                 : 'black'
                         },
                         styles.Btn
-                    ]} onPress={postDocument(recordingLine.file)}  >
+                    ]}
+                        onPress={() => handleSubmit(recordingLine.file)}
+                    //onPress={() => console.log(recordingLine.file)}
+                    >
                         <Text style={styles.text}>Save</Text>
                     </Pressable>
                 </View>
@@ -151,28 +159,51 @@ const AudioRecoder = () => {
     //   }
 
 
-    const postDocument = ({ uri }) => {
-        const doc = {
-            name: "rec",
-            size: 8,
-            uri: uri,
-            type: "application/" + "m4a"
-        }
-        const url = `${BASE_URL}/audioUplaod/upload`;
-        const fileUri = doc.uri;
-        const formData = new FormData();
-        formData.append('document', doc);
+    // const postDocument = ({ uri }) => {
+    //     const doc = {
+    //         name: "rec",
+    //         size: 8,
+    //         uri: uri,
+    //         type: "application/" + "m4a"
+    //     }
+    //     const url = `${BASE_URL}/audioUplaod/upload`;
+    //     const fileUri = doc.uri;
+    //     const formData = new FormData();
+    //     formData.append('document', doc);
+    //     const options = {
+    //         method: 'POST',
+    //         body: formData,
+    //         headers: {
+    //             Accept: 'application/json',
+    //             'Content-Type': 'multipart/form-data',
+    //         },
+    //     };
+    //     console.log(formData);
+
+    //     fetch(url, options).catch((error) => console.log(error));
+    // }
+    const handleSubmit = (uri) => {
+        //const uri = recording.getURI();
+        const filetype = uri.split(".").pop();
+        const filename = uri.split("/").pop();
+        const fd = new FormData();
+        fd.append("file", {
+            uri,
+            type: `audio/${filetype}`,
+            name: filename,
+        });
+
+
         const options = {
             method: 'POST',
-            body: formData,
+            body: fd,
             headers: {
                 Accept: 'application/json',
                 'Content-Type': 'multipart/form-data',
             },
         };
-        console.log(formData);
 
-        fetch(url, options).catch((error) => console.log(error));
+        fetch(`${BASE_URL}/upload`, options).catch((error) => console.log(error));
     }
 
 

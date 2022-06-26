@@ -49,8 +49,15 @@ const StopWatch = ({ startStop, startTimer, stopTimer }) => {
                             style={{ margin: 10, borderColor: 'black', borderWidth: 3, padding: 5 }}
                             onPress={() => {
                                 setIsStopwatchStart(!isStopwatchStart);
-                                setResetStopwatch(false);
+                                if (!isStopwatchStart) {
+                                    setResetStopwatch(false);
+                                } else {
+                                    setResetStopwatch(true);
+                                }
+
                                 startStop();
+
+
                             }}>
                             <Text style={styles.buttonText}>
                                 {!isStopwatchStart ? 'START RECORDING' : 'STOP RECORDING'}
@@ -67,7 +74,7 @@ const StopWatch = ({ startStop, startTimer, stopTimer }) => {
                         </TouchableHighlight>
                     </View>
                 </View>
-                <View style={styles.sectionStyle}>
+                {/* <View style={styles.sectionStyle}>
                     <Timer
                         totalDuration={timerDuration}
                         msecs
@@ -113,7 +120,7 @@ const StopWatch = ({ startStop, startTimer, stopTimer }) => {
                         }}>
                         <Text style={styles.buttonText}>RESET</Text>
                     </TouchableHighlight>
-                </View>
+                </View> */}
             </View>
         </SafeAreaView>
     );

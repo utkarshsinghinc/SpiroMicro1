@@ -75,7 +75,7 @@ export const PatientInfo = ({ navigation }) => {
     }
     return (
         < Formik
-            initialValues={{ fname: "", sname: "", uhid: "", pnumber: "", email: "", age: "", gender: "", Height: "", Weight: "", Smoking: "", Chest: "", docId: "", hospital: "" }}
+            initialValues={{ fname: "", sname: "", uhid: "", pnumber: "", email: "", age: "", gender: "", Height: "", Weight: "", Smoking: "", Chest: "", docId: "", hospital: "", filelocation: "" }}
             onSubmit={handleSubmit}
             validationSchema={validationSchema}
         >

@@ -6,15 +6,20 @@ import { AsyncStorage } from 'react-native';
 import { BASE_URL } from "../constants/utils";
 const PasswordUpdate = () => {
 
-    async function update({ values, id }) {
-
+    async function update(params) {
+        const password = params.password;
+        // const id = params.id
+        // const ID=JSON.stringify(id);
+        const post = {
+            password: password
+        }
 
         const requestOptions = {
             method: 'PUT',
             headers: { 'Content-Type': 'application/json' },
-            body: JSON.stringify(values)
+            body: JSON.stringify(post)
         };
-        const response = await fetch(BASE_URL + `/doctors/${id}`, requestOptions);
+        const response = await fetch(BASE_URL + `/doctors/` + 2, requestOptions);
 
         return handleResponse(response);
     }
@@ -39,13 +44,8 @@ const PasswordUpdate = () => {
     const route = useRoute();
     return (
         < Formik
-            initialValues={{ password: "", id: "" }}
-            onSubmit={values => {
-                const id = values.id;
-                //const em = values;
-                update(id)
-            }
-            }
+            initialValues={{ password: "" }}
+            onSubmit={update}
         >
             {({ handleChange, handleBlur, handleSubmit, values, error }) => (
 
@@ -58,12 +58,12 @@ const PasswordUpdate = () => {
                             style={styles.InputBox}
                             onChangeText={handleChange('password')}
                             onBlur={handleBlur('password')}
-                            value={values.passweord}
-                            placeholder=" Enter your Email ID"
+                            value={values.password}
+                            placeholder=" Enter your new password"
 
                         />
                     </View>
-                    <View style={styles.V2}>
+                    {/* <View style={styles.V2}>
                         <Text style={styles.InputLable}>Doctor E.C </Text>
                         <TextInput
                             style={styles.InputBox}
@@ -73,7 +73,7 @@ const PasswordUpdate = () => {
                             placeholder=" Enter your ID"
 
                         />
-                    </View>
+                    </View> */}
 
 
 
@@ -90,7 +90,7 @@ const PasswordUpdate = () => {
                                     : 'black'
                             },
                             styles.Btn
-                        ]} onPress={handleSubmit} >
+                        ]} onPress={update(values)} >
                             <Text style={styles.text}>Update</Text>
                         </Pressable>
 

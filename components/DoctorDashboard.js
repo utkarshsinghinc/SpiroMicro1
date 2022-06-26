@@ -93,7 +93,7 @@ const DoctorDashboard = ({ navigation }) => {
                 rippleColor={'#3498db'}
             />
 
-            <Text>{f.fname}</Text>
+
         </View>
     );
 }
