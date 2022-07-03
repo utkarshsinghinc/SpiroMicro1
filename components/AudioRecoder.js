@@ -117,7 +117,7 @@ const AudioRecoder = () => {
                         },
                         styles.Btn
                     ]}
-                        onPress={() => handleSubmit(recordingLine.file)}
+                        onPress={() => postDocument(recordingLine.file)}
                     //onPress={() => console.log(recordingLine.file)}
                     >
                         <Text style={styles.text}>Save</Text>
@@ -159,52 +159,105 @@ const AudioRecoder = () => {
     //   }
 
 
-    // const postDocument = ({ uri }) => {
-    //     const doc = {
-    //         name: "rec",
-    //         size: 8,
-    //         uri: uri,
-    //         type: "application/" + "m4a"
-    //     }
-    //     const url = `${BASE_URL}/audioUplaod/upload`;
-    //     const fileUri = doc.uri;
-    //     const formData = new FormData();
-    //     formData.append('document', doc);
+    const postDocument = (uri) => {
+        var blobObject = blobCreationFromURL(uri);
+
+        // Create Blob file from URL
+        function blobCreationFromURL(inputURI) {
+
+            var binaryVal;
+
+            // mime extension extraction
+            var inputMIME = inputURI.split(',')[0].split(':')[1].split(';')[0];
+
+            // Extract remaining part of URL and convert it to binary value
+            if (inputURI.split(',')[0].indexOf('base64') >= 0)
+                binaryVal = atob(inputURI.split(',')[1]);
+
+            // Decoding of base64 encoded string
+            else
+                binaryVal = unescape(inputURI.split(',')[1]);
+
+            // Computation of new string in which hexadecimal
+            // escape sequences are replaced by the character 
+            // it represents
+
+            // Store the bytes of the string to a typed array
+            var blobArray = [];
+            for (var index = 0; index < binaryVal.length; index++) {
+                blobArray.push(binaryVal.charCodeAt(index));
+            }
+
+            return new Blob([blobArray], {
+                type: inputMIME
+            });
+        }
+
+
+
+
+
+
+
+
+
+
+
+
+        async function uploadAudioAsync(uri) {
+            console.log("Uploading " + uri);
+            let apiUrl = 'http://localhost:4000/audios/upload';
+            //let uriParts = uri.split('.').pop();
+            //let fileType = uriParts[uriParts.length - 1];
+
+            let formData = new FormData();
+            formData.append('Blob file', blobObject);
+
+            let options = {
+                method: 'POST',
+                body: formData,
+                headers: {
+                    'Accept': 'application/json',
+                    'Content-Type': 'multipart/form-data',
+                },
+            };
+
+            console.log("POSTing " + uri + " to " + apiUrl);
+            return fetch(apiUrl, options);
+        }
+
+        // Do a recording
+        // uri = await this.recording.getURI();
+        uploadAudioAsync(uri)
+    }
+    // const handleSubmit = (uri) => {
+    //     //const uri = recording.getURI();
+    //     //const filetype = uri.split(".").pop();
+    //     //const filename = uri.split("/").pop();
+    //     const fd = new FormData();
+    //     fd.append("avatar", {
+    //         uri,
+    //         //type: `audio/${filetype}`,
+    //         name: "avatar",
+    //     });
+
+
     //     const options = {
     //         method: 'POST',
-    //         body: formData,
+    //         body: fd,
     //         headers: {
     //             Accept: 'application/json',
     //             'Content-Type': 'multipart/form-data',
     //         },
     //     };
-    //     console.log(formData);
+    //     try {
+    //         fetch(`${BASE_URL}/audios/upload`, options)
+    //     } catch (error) {
+    //         console.log(error)
+    //     }
 
-    //     fetch(url, options).catch((error) => console.log(error));
     // }
-    const handleSubmit = (uri) => {
-        //const uri = recording.getURI();
-        const filetype = uri.split(".").pop();
-        const filename = uri.split("/").pop();
-        const fd = new FormData();
-        fd.append("file", {
-            uri,
-            type: `audio/${filetype}`,
-            name: filename,
-        });
 
-
-        const options = {
-            method: 'POST',
-            body: fd,
-            headers: {
-                Accept: 'application/json',
-                'Content-Type': 'multipart/form-data',
-            },
-        };
-
-        fetch(`${BASE_URL}/upload`, options).catch((error) => console.log(error));
-    }
 
 
     return (
